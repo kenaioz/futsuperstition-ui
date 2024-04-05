@@ -17,7 +17,10 @@ export function NewGame() {
   });
   const [inputTest, setInputTest] = useState<string>("");
   const [stadiums, setStadiums] = useState<StadiumsType[]>([]);
-  const [selectedStadium, setSelectedStadium] = useState();
+  const [selectedStadium, setSelectedStadium] = useState<StadiumsType>({
+    id: "",
+    name: "",
+  });
 
   useEffect(() => {
     async function fetchTeams() {
@@ -60,8 +63,18 @@ export function NewGame() {
                 options={teams}
                 onChange={setSelectedTeam}
               />
-
               {selectedTeam.name && <span>{selectedTeam.name}</span>}
+
+              <Dropdown
+                id="meu-dropdown"
+                label="Selecione uma opção:"
+                placeholder="Pesquisar..."
+                value={selectedStadium}
+                options={stadiums}
+                onChange={setSelectedStadium}
+              />
+
+              {selectedStadium.name && <span>{selectedStadium.name}</span>}
             </legend>
           </fieldset>
         </PageContent>

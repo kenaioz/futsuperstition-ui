@@ -345,8 +345,7 @@ export const stadiumsData = [
   { id: 50, name: "Estadio Luis Franzini" },
   { id: 51, name: "Arena Corinthians" },
   { id: 52, name: "Allianz Parque" },
-  { id: 53, name: "Morumbi" },
-  { id: 54, name: "Vila Belmiro" },
-  { id: 55, name: "Estádio do Canindé" },
-  { id: 56, name: "Estádio Jorge Ismael de Biasi" },
+  { id: 53, name: "Vila Belmiro" },
+  { id: 54, name: "Estádio do Canindé" },
+  { id: 55, name: "Estádio Jorge Ismael de Biasi" },
 ];
