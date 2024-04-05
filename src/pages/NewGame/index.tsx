@@ -45,37 +45,37 @@ export function NewGame() {
           <fieldset>
             <legend>
               <h1>Novo JogoNovo Jogo</h1>
-
-              <Input
-                id="teste"
-                label="Teste"
-                placeholder="Teste..."
-                value={inputTest}
-                onChange={setInputTest}
-              />
-              {inputTest && <span>{inputTest}</span>}
-
-              <Dropdown
-                id="meu-dropdown"
-                label="Selecione uma opção:"
-                placeholder="Pesquisar..."
-                value={selectedTeam}
-                options={teams}
-                onChange={setSelectedTeam}
-              />
-              {selectedTeam.name && <span>{selectedTeam.name}</span>}
-
-              <Dropdown
-                id="meu-dropdown"
-                label="Selecione uma opção:"
-                placeholder="Pesquisar..."
-                value={selectedStadium}
-                options={stadiums}
-                onChange={setSelectedStadium}
-              />
-
-              {selectedStadium.name && <span>{selectedStadium.name}</span>}
             </legend>
+
+            <Input
+              id="teste"
+              label="Teste"
+              placeholder="Teste..."
+              value={inputTest}
+              onChange={setInputTest}
+            />
+            {inputTest && <span>{inputTest}</span>}
+
+            <Dropdown
+              id="dropdownTeam"
+              label="Selecione uma opção:"
+              placeholder="Pesquisar..."
+              value={selectedTeam}
+              options={teams}
+              onChange={setSelectedTeam}
+            />
+            {selectedTeam.name && <span>{selectedTeam.name}</span>}
+
+            <Dropdown
+              id="dropdownStadium"
+              label="Selecione uma opção:"
+              placeholder="Pesquisar..."
+              value={selectedStadium}
+              options={stadiums}
+              onChange={setSelectedStadium}
+            />
+
+            {selectedStadium.name && <span>{selectedStadium.name}</span>}
           </fieldset>
         </PageContent>
       </Layout>

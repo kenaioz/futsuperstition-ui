@@ -41,6 +41,8 @@ export const DropdownList = styled.ul`
 
   max-height: 250px;
   overflow-y: scroll;
+
+  z-index: 10;
 `;
 
 export const DropdownOptions = styled.li`
