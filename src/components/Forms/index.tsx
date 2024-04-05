@@ -9,6 +9,7 @@ import {
 } from "./styles";
 
 import { TeamsType } from "../../services/teams";
+import { StadiumsType } from "../../services/stadiums";
 
 export interface InputProps {
   id: string;
@@ -54,9 +55,9 @@ export interface DropdownProps {
   id: string;
   label: string;
   placeholder?: string;
-  value: TeamsType;
-  options: TeamsType[];
-  onChange: Dispatch<SetStateAction<TeamsType>>;
+  value: TeamsType | StadiumsType;
+  options: TeamsType[] | StadiumsType[];
+  onChange: Dispatch<SetStateAction<TeamsType | StadiumsType>>;
 }
 
 export function Dropdown({
@@ -68,7 +69,9 @@ export function Dropdown({
   onChange,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [filteredOptions, setFilteredOptions] = useState<TeamsType[]>([]);
+  const [filteredOptions, setFilteredOptions] = useState<
+    TeamsType[] | StadiumsType[]
+  >([]);
   const [searchValue, setSearchValue] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -130,14 +133,14 @@ export function Dropdown({
     return value.name;
   };
 
-  const handleOptionSelect = (selectedValue: TeamsType) => {
+  const handleOptionSelect = (selectedValue: TeamsType | StadiumsType) => {
     onChange(selectedValue);
     setIsOpen(false);
   };
 
   const handleKeyDown = (
     e: React.KeyboardEvent<HTMLLIElement | HTMLInputElement>,
-    option?: TeamsType
+    option?: TeamsType | StadiumsType
   ) => {
     if (e.key === "Backspace" && value.name) {
       setSearchValue("");
