@@ -54,8 +54,17 @@ import {
   CompetitionsType,
 } from "../../services/competitions";
 import { getAllGames, GamesType } from "../../services/games";
-import { getAllJerseys, JerseysType } from "../../services/jerseys";
-import { getAllLocals, LocalsType } from "../../services/locals";
+import {
+  getJerseysDashboardData,
+  getAllJerseys,
+  JerseysDashboardType,
+  JerseysType,
+} from "../../services/jerseys";
+import {
+  getLocalsDashboardData,
+  getAllLocals,
+  LocalsType,
+} from "../../services/locals";
 import { getAllRivals, RivalsType } from "../../services/rivals";
 import {
   getLocalsJerseysComp,
@@ -92,7 +101,7 @@ export function Dashboard() {
     filter: "",
   });
 
-  const [jerseys, setJerseys] = useState<JerseysType[]>([]);
+  const [jerseys, setJerseys] = useState<JerseysDashboardType[]>([]);
   const [locals, setLocals] = useState<LocalsType[]>([]);
   const [localsJerseys, setLocalsJerseys] = useState<LocalsJerseysType[]>([]);
 
@@ -109,7 +118,7 @@ export function Dashboard() {
       setGames(data);
     }
     async function handleJerseys() {
-      const data = await getAllJerseys();
+      const data = await getJerseysDashboardData();
       setJerseys(data);
     }
     async function handleRivals() {
@@ -117,7 +126,7 @@ export function Dashboard() {
       setRivals(data);
     }
     async function handleLocals() {
-      const data = await getAllLocals();
+      const data = await getLocalsDashboardData();
       setLocals(data);
     }
     async function handleCompetitions() {
@@ -683,9 +692,7 @@ export function Dashboard() {
                           <TableCell>{data.awayTeam.name}</TableCell>
                           <TableCell>{data.date}</TableCell>
                           <TableCell>{data.stadium}</TableCell>
-                          <TableCell>
-                            {data.jersey.name} {data.jersey.year}
-                          </TableCell>
+                          <TableCell>{data.jersey}</TableCell>
                           <TableCell>{data.local}</TableCell>
                           <TableCell>
                             <ButtonIcon

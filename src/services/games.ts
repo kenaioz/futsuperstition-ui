@@ -12,14 +12,8 @@ export interface GamesType {
   };
   date: string;
   stadium: string;
-  jersey: {
-    name: string;
-    year: string;
-  };
-  competition: {
-    id: string;
-    name: string;
-  };
+  jersey: string;
+  competition: string;
   local: string;
 }
 

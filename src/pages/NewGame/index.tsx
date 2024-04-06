@@ -1,21 +1,32 @@
 import { useState, useEffect } from "react";
 
-import { Container, PageContent } from "./styles";
+import { Container, PageContent, Forms } from "./styles";
 
 import { Header } from "../../components/Header";
 import { Layout } from "../../components/Layout";
-import { Dropdown, Input } from "../../components/Forms";
+import {
+  Dropdown,
+  Input,
+  RadioGroup,
+  RadioButton,
+} from "../../components/Forms";
 
 import { getAllTeams, TeamsType } from "../../services/teams";
 import { getAllStadiums, StadiumsType } from "../../services/stadiums";
 
 export function NewGame() {
+  const [inputTest, setInputTest] = useState<string>("");
+
   const [teams, setTeams] = useState<TeamsType[]>([]);
-  const [selectedTeam, setSelectedTeam] = useState<TeamsType>({
+  const [homeTeam, setHomeTeam] = useState<TeamsType>({
     id: "",
     name: "",
   });
-  const [inputTest, setInputTest] = useState<string>("");
+  const [awayTeam, setAwayTeam] = useState<TeamsType>({
+    id: "",
+    name: "",
+  });
+
   const [stadiums, setStadiums] = useState<StadiumsType[]>([]);
   const [selectedStadium, setSelectedStadium] = useState<StadiumsType>({
     id: "",
@@ -37,6 +48,14 @@ export function NewGame() {
     fetchStadiums();
   }, []);
 
+  const [selectedOption, setSelectedOption] = useState("");
+
+  const handleOptionChange = (value: string) => {
+    setSelectedOption(value);
+  };
+
+  console.log(selectedOption);
+
   return (
     <Container>
       <Header />
@@ -44,38 +63,64 @@ export function NewGame() {
         <PageContent>
           <fieldset>
             <legend>
-              <h1>Novo JogoNovo Jogo</h1>
+              <h1>Novo Jogo</h1>
             </legend>
 
-            <Input
-              id="teste"
-              label="Teste"
-              placeholder="Teste..."
-              value={inputTest}
-              onChange={setInputTest}
-            />
-            {inputTest && <span>{inputTest}</span>}
+            <Forms>
+              <Input
+                id="teste"
+                label="Teste"
+                placeholder="Teste..."
+                value={inputTest}
+                onChange={setInputTest}
+              />
 
-            <Dropdown
-              id="dropdownTeam"
-              label="Selecione uma opção:"
-              placeholder="Pesquisar..."
-              value={selectedTeam}
-              options={teams}
-              onChange={setSelectedTeam}
-            />
-            {selectedTeam.name && <span>{selectedTeam.name}</span>}
+              <Dropdown
+                id="dropdownHomeTeam"
+                label={homeTeam.name ? homeTeam.name : "Time Mandante"}
+                placeholder="Pesquisar..."
+                value={homeTeam}
+                options={teams}
+                onChange={setHomeTeam}
+              />
 
-            <Dropdown
-              id="dropdownStadium"
-              label="Selecione uma opção:"
-              placeholder="Pesquisar..."
-              value={selectedStadium}
-              options={stadiums}
-              onChange={setSelectedStadium}
-            />
+              <Dropdown
+                id="dropdownAwayTeam"
+                label={awayTeam.name ? awayTeam.name : "Time Visitante"}
+                placeholder="Pesquisar..."
+                value={awayTeam}
+                options={teams}
+                onChange={setAwayTeam}
+              />
 
-            {selectedStadium.name && <span>{selectedStadium.name}</span>}
+              <Dropdown
+                id="dropdownStadium"
+                label="Estádio"
+                placeholder="Pesquisar..."
+                value={selectedStadium}
+                options={stadiums}
+                onChange={setSelectedStadium}
+              />
+
+              <RadioGroup label="Local que você assistiu o jogo">
+                <RadioButton
+                  id="stadiumRadio"
+                  name="options"
+                  value="stadium"
+                  checked={selectedOption === "stadium"}
+                  onChange={handleOptionChange}
+                  label="Sim"
+                />
+                <RadioButton
+                  id="otherRadio"
+                  name="options"
+                  value="other"
+                  checked={selectedOption === "other"}
+                  onChange={handleOptionChange}
+                  label="Não"
+                />
+              </RadioGroup>
+            </Forms>
           </fieldset>
         </PageContent>
       </Layout>

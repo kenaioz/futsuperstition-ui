@@ -1,9 +1,9 @@
 import { faker } from "@faker-js/faker";
 
-export const jerseysData = [
+export const jerseysDashboard = [
   {
     id: "1",
-    name: "Camisa Home",
+    name: "Home",
     year: "2023",
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
@@ -11,7 +11,7 @@ export const jerseysData = [
   },
   {
     id: "2",
-    name: "Camisa Away",
+    name: "Away",
     year: "2021",
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
@@ -19,7 +19,7 @@ export const jerseysData = [
   },
   {
     id: "3",
-    name: "Camisa Sócio",
+    name: "Sócio",
     year: "2021",
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
@@ -27,7 +27,7 @@ export const jerseysData = [
   },
   {
     id: "4",
-    name: "Camisa Alternativa",
+    name: "Alternativa",
     year: "2021",
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
@@ -35,7 +35,7 @@ export const jerseysData = [
   },
   {
     id: "5",
-    name: "Camisa Treino",
+    name: "Treino",
     year: "2021",
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
@@ -43,7 +43,7 @@ export const jerseysData = [
   },
   {
     id: "6",
-    name: "Camisa Viagem",
+    name: "Viagem",
     year: "2021",
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
@@ -51,7 +51,7 @@ export const jerseysData = [
   },
   {
     id: "7",
-    name: "Camisa Away",
+    name: "Away",
     year: "2020",
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
@@ -59,7 +59,7 @@ export const jerseysData = [
   },
   {
     id: "8",
-    name: "Camisa Home",
+    name: "Home",
     year: "2019",
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
@@ -67,7 +67,7 @@ export const jerseysData = [
   },
   {
     id: "9",
-    name: "Camisa Away",
+    name: "Away",
     year: "2021",
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
@@ -75,10 +75,18 @@ export const jerseysData = [
   },
   {
     id: "10",
-    name: "Camisa Home",
+    name: "Home",
     year: "2021",
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
     percentage: faker.number.int({ min: 20, max: 100 }),
   },
+];
+
+export const jerseysData = [
+  { id: "1", name: "Home 2022" },
+  { id: "2", name: "Home 2021" },
+  { id: "3", name: "Away 2023" },
+  { id: "4", name: "Home 2023" },
+  { id: "5", name: "Alternativa 2021" },
 ];

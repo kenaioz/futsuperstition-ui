@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 
-export const localsData = [
+export const localsDashboard = [
   {
     id: "1",
     name: "Morumbi",
@@ -81,4 +81,12 @@ export const localsData = [
     frequency: faker.number.int({ min: 15, max: 30 }),
     percentage: faker.number.int({ min: 20, max: 100 }),
   },
+];
+
+export const localsData = [
+  { id: "1", name: "Casa" },
+  { id: "2", name: "Bar São Francisco" },
+  { id: "3", name: "Casa de Fulano" },
+  { id: "4", name: "Morumbi" },
+  { id: "5", name: "Bar Sei La" },
 ];
