@@ -11,14 +11,8 @@ export const gamesData = [
     },
     date: "2024-01-30",
     stadium: "Morumbi",
-    jersey: {
-      name: "Camisa Home",
-      year: "2022",
-    },
-    competition: {
-      id: "1",
-      name: "Paulistão",
-    },
+    jersey: "Camisa Home 2022",
+    competition: "Paulistão",
     local: "Casa",
   },
   {
@@ -33,14 +27,8 @@ export const gamesData = [
     },
     date: "2024-02-05",
     stadium: "Estádio B",
-    jersey: {
-      name: "Camisa Home",
-      year: "2022",
-    },
-    competition: {
-      id: "1",
-      name: "Brasileirão",
-    },
+    jersey: "Camisa Home 2022",
+    competition: "Brasileirão",
     local: "Local B",
   },
   {
@@ -55,14 +43,8 @@ export const gamesData = [
     },
     date: "2024-03-12",
     stadium: "Estádio C",
-    jersey: {
-      name: "Camisa Home",
-      year: "2022",
-    },
-    competition: {
-      id: "1",
-      name: "Brasileirão",
-    },
+    jersey: "Camisa Home 2022",
+    competition: "Brasileirão",
     local: "Local C",
   },
   {
@@ -77,14 +59,8 @@ export const gamesData = [
     },
     date: "2024-04-22",
     stadium: "Estádio D",
-    jersey: {
-      name: "Camisa Home",
-      year: "2022",
-    },
-    competition: {
-      id: "1",
-      name: "Libertadores",
-    },
+    jersey: "Camisa Home 2022",
+    competition: "Libertadores",
     local: "Local D",
   },
   {
@@ -99,14 +75,8 @@ export const gamesData = [
     },
     date: "2024-05-01",
     stadium: "Estádio E",
-    jersey: {
-      name: "Camisa Home",
-      year: "2022",
-    },
-    competition: {
-      id: "1",
-      name: "Paulistão",
-    },
+    jersey: "Camisa Home 2022",
+    competition: "Paulistão",
     local: "Local E",
   },
   {
@@ -121,14 +91,8 @@ export const gamesData = [
     },
     date: "2024-06-18",
     stadium: "Estádio F",
-    jersey: {
-      name: "Camisa Home",
-      year: "2022",
-    },
-    competition: {
-      id: "1",
-      name: "Paulistão",
-    },
+    jersey: "Camisa Home 2022",
+    competition: "Paulistão",
     local: "Local F",
   },
   {
@@ -143,14 +107,8 @@ export const gamesData = [
     },
     date: "2024-07-03",
     stadium: "Estádio G",
-    jersey: {
-      name: "Camisa Home",
-      year: "2022",
-    },
-    competition: {
-      id: "1",
-      name: "Brasileirão",
-    },
+    jersey: "Camisa Home 2022",
+    competition: "Brasileirão",
     local: "Local G",
   },
   {
@@ -165,14 +123,8 @@ export const gamesData = [
     },
     date: "2024-08-14",
     stadium: "Estádio H",
-    jersey: {
-      name: "Camisa Home",
-      year: "2022",
-    },
-    competition: {
-      id: "1",
-      name: "Paulistão",
-    },
+    jersey: "Camisa Home 2022",
+    competition: "Paulistão",
     local: "Local H",
   },
   {
@@ -187,14 +139,8 @@ export const gamesData = [
     },
     date: "2024-09-27",
     stadium: "Estádio I",
-    jersey: {
-      name: "Camisa Home",
-      year: "2022",
-    },
-    competition: {
-      id: "1",
-      name: "Brasileirão",
-    },
+    jersey: "Camisa Home 2022",
+    competition: "Brasileirão",
     local: "Local I",
   },
   {
@@ -209,14 +155,8 @@ export const gamesData = [
     },
     date: "2024-10-10",
     stadium: "Estádio J",
-    jersey: {
-      name: "Camisa Home",
-      year: "2022",
-    },
-    competition: {
-      id: "1",
-      name: "Brasileirão",
-    },
+    jersey: "Camisa Home 2022",
+    competition: "Brasileirão",
     local: "Local J",
   },
 ];

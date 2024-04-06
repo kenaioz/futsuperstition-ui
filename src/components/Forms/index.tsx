@@ -1,4 +1,11 @@
-import { Dispatch, SetStateAction, useState, useEffect, useRef } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useState,
+  useEffect,
+  useRef,
+  ReactNode,
+} from "react";
 
 import {
   LabelInputWrapper,
@@ -6,6 +13,10 @@ import {
   DropdownContainer,
   DropdownList,
   DropdownOptions,
+  RadioFieldset,
+  RadioWrapper,
+  RadioContainer,
+  StyledRadio,
 } from "./styles";
 
 import { TeamsType } from "../../services/teams";
@@ -192,5 +203,54 @@ export function Dropdown({
         )}
       </DropdownContainer>
     </LabelInputWrapper>
+  );
+}
+
+interface RadioButtonProps {
+  id: string;
+  name: string;
+  value: string;
+  checked: boolean;
+  onChange: (value: string) => void;
+  label: string;
+}
+
+interface RadioButtonWrapperProps {
+  label: string;
+  children: ReactNode;
+}
+
+export function RadioButton({
+  id,
+  name,
+  value,
+  checked,
+  onChange,
+  label,
+}: RadioButtonProps) {
+  return (
+    <RadioContainer>
+      <StyledRadio
+        type="radio"
+        id={id}
+        name={name}
+        value={value}
+        checked={checked}
+        onChange={(e) => onChange(e.target.value)}
+      />
+      <label htmlFor={id}>{label}</label>
+    </RadioContainer>
+  );
+}
+
+export function RadioGroup({ label, children }: RadioButtonWrapperProps) {
+  return (
+    <RadioFieldset>
+      <div>
+        <legend>{label}</legend>
+      </div>
+
+      <RadioWrapper>{children}</RadioWrapper>
+    </RadioFieldset>
   );
 }

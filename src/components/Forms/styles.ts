@@ -57,3 +57,51 @@ export const DropdownOptions = styled.li`
     outline: none;
   }
 `;
+
+export const RadioFieldset = styled.fieldset`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+export const RadioWrapper = styled.div`
+  display: flex;
+  gap: 16px;
+`;
+
+export const RadioContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+export const StyledRadio = styled.input`
+  cursor: pointer;
+  appearance: none;
+  margin: 0;
+  width: 20px;
+  height: 20px;
+  border: 2px solid ${({ theme }) => theme.COLORS.HIGHLIGHT};
+  border-radius: 50%;
+  transition: all 0.1s ease-in;
+
+  display: grid;
+  place-items: center;
+
+  &::after {
+    content: "";
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+  }
+
+  &:checked::after,
+  &:hover::after {
+    background-color: ${({ theme }) => theme.COLORS.HIGHLIGHT};
+  }
+
+  &:focus {
+    outline: 2px solid ${({ theme }) => theme.COLORS.TEXT};
+    outline-offset: 2px;
+  }
+`;

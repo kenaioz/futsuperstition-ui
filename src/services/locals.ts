@@ -1,6 +1,6 @@
-import { localsData } from "../utils/locals";
+import { localsDashboard, localsData } from "../utils/locals";
 
-export interface LocalsType {
+export interface LocalsDasboardType {
   id: string;
   name: string;
   category: string;
@@ -9,10 +9,26 @@ export interface LocalsType {
   percentage: number;
 }
 
-export async function getAllLocals(): Promise<LocalsType[]> {
+export interface LocalsType {
+  id: string;
+  name: string;
+  category?: string;
+}
+
+async function getLocalsDashboardData(): Promise<LocalsDasboardType[]> {
+  try {
+    return localsDashboard;
+  } catch (error) {
+    return [];
+  }
+}
+
+async function getAllLocals(): Promise<LocalsType[]> {
   try {
     return localsData;
   } catch (error) {
     return [];
   }
 }
+
+export { getLocalsDashboardData, getAllLocals };

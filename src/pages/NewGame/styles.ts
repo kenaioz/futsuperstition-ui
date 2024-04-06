@@ -12,3 +12,10 @@ export const PageContent = styled.div`
     border: none;
   }
 `;
+
+export const Forms = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem 3rem;
+  margin-bottom: 32px;
+`;
