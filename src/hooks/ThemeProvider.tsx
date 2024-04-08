@@ -23,6 +23,7 @@ interface ThemeColors {
   TOOLTIP: string;
   FAB_SHADOW: string;
   HIGHLIGHT: string;
+  HIGHLIGHT_HOVER: string;
 }
 
 interface ThemeProviderType {
@@ -52,6 +53,7 @@ const lightTheme = {
     FAB_SHADOW: "#d3d3d3",
 
     HIGHLIGHT: "#25A519",
+    HIGHLIGHT_HOVER: "#0b7c0199",
   },
 };
 const darkTheme = {
@@ -73,6 +75,7 @@ const darkTheme = {
     FAB_SHADOW: "#2b2b2b",
 
     HIGHLIGHT: "#25A519",
+    HIGHLIGHT_HOVER: "#0b7c0199",
   },
 };
 
