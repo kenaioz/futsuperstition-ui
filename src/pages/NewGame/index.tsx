@@ -9,7 +9,11 @@ import {
   Input,
   RadioGroup,
   RadioButton,
+  CustomDatePicker,
 } from "../../components/Forms";
+
+import dayjs, { Dayjs } from "dayjs";
+import "dayjs/locale/pt-br";
 
 import { getAllTeams, TeamsType } from "../../services/teams";
 import { getAllStadiums, StadiumsType } from "../../services/stadiums";
@@ -33,6 +37,10 @@ export function NewGame() {
     name: "",
   });
 
+  const [gameDate, setGameDate] = useState<Dayjs | null>(
+    dayjs().locale("pt-br")
+  );
+
   useEffect(() => {
     async function fetchTeams() {
       const response = await getAllTeams();
@@ -54,7 +62,7 @@ export function NewGame() {
     setSelectedOption(value);
   };
 
-  console.log(selectedOption);
+  console.log(dayjs(gameDate).format("DD/MM/YYYY"));
 
   return (
     <Container>
@@ -109,7 +117,7 @@ export function NewGame() {
                   value="stadium"
                   checked={selectedOption === "stadium"}
                   onChange={handleOptionChange}
-                  label="Sim"
+                  label="Estádio"
                 />
                 <RadioButton
                   id="otherRadio"
@@ -117,9 +125,16 @@ export function NewGame() {
                   value="other"
                   checked={selectedOption === "other"}
                   onChange={handleOptionChange}
-                  label="Não"
+                  label="Outro Local"
                 />
               </RadioGroup>
+
+              <CustomDatePicker
+                id="gameDate"
+                label="Data do Jogo"
+                value={gameDate}
+                onChange={setGameDate}
+              />
             </Forms>
           </fieldset>
         </PageContent>

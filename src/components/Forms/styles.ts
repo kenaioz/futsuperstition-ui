@@ -58,10 +58,15 @@ export const DropdownOptions = styled.li`
   }
 `;
 
-export const RadioFieldset = styled.fieldset`
+export const CustomLabel = styled.span`
+  font-family: "Poppins";
+  font-size: 16px;
+`;
+
+export const RadioGroupContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 14px;
 `;
 
 export const RadioWrapper = styled.div`
@@ -73,6 +78,11 @@ export const RadioContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+
+  cursor: pointer;
+  label {
+    cursor: pointer;
+  }
 `;
 
 export const StyledRadio = styled.input`

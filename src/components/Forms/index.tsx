@@ -13,14 +13,25 @@ import {
   DropdownContainer,
   DropdownList,
   DropdownOptions,
-  RadioFieldset,
+  RadioGroupContainer,
   RadioWrapper,
   RadioContainer,
   StyledRadio,
+  CustomLabel,
 } from "./styles";
 
 import { TeamsType } from "../../services/teams";
 import { StadiumsType } from "../../services/stadiums";
+
+import { useTheme } from "../../hooks/ThemeProvider";
+
+import { ptBR } from "@mui/x-date-pickers/locales";
+import "dayjs/locale/pt-br";
+import { DatePicker } from "@mui/x-date-pickers";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { styled } from "@mui/material/styles";
+import { Dayjs } from "dayjs";
 
 export interface InputProps {
   id: string;
@@ -245,12 +256,121 @@ export function RadioButton({
 
 export function RadioGroup({ label, children }: RadioButtonWrapperProps) {
   return (
-    <RadioFieldset>
-      <div>
-        <legend>{label}</legend>
-      </div>
-
+    <RadioGroupContainer>
+      <CustomLabel>{label}</CustomLabel>
       <RadioWrapper>{children}</RadioWrapper>
-    </RadioFieldset>
+    </RadioGroupContainer>
+  );
+}
+
+export interface DatePickerProps {
+  id: string;
+  label: string;
+  value: Dayjs | null;
+  onChange: Dispatch<SetStateAction<Dayjs | null>>;
+}
+
+export function CustomDatePicker({ label, value, onChange }: DatePickerProps) {
+  const { theme } = useTheme();
+
+  const StyledDatePicker = styled(DatePicker)({
+    ".MuiSvgIcon-root": {
+      color: theme.COLORS.TEXT,
+    },
+
+    ".MuiFormControl-root": {
+      color: theme.COLORS.TEXT,
+    },
+
+    ".MuiInputBase-root": {
+      backgroundColor: theme.COLORS.CARDBG,
+      height: "45px",
+      borderRadius: "8px",
+      color: theme.COLORS.TEXT,
+    },
+  });
+
+  console.log(value);
+
+  return (
+    <LabelInputWrapper>
+      <CustomLabel>{label}</CustomLabel>
+      <LocalizationProvider
+        dateAdapter={AdapterDayjs}
+        adapterLocale="pt-br"
+        localeText={
+          ptBR.components.MuiLocalizationProvider.defaultProps.localeText
+        }
+      >
+        <StyledDatePicker
+          format="DD/MM/YYYY"
+          value={value}
+          onChange={(newValue) => {
+            onChange(newValue);
+          }}
+          slotProps={{
+            popper: {
+              sx: {
+                ".MuiPaper-root": {
+                  backgroundColor: theme.COLORS.CARDBG,
+                  color: theme.COLORS.TEXT,
+                  borderRadius: "8px",
+                },
+              },
+            },
+            layout: {
+              sx: {
+                ".MuiDayCalendar-weekDayLabel": {
+                  color: theme.COLORS.TEXT,
+                },
+                ".MuiSvgIcon-root": {
+                  color: theme.COLORS.TEXT,
+                },
+              },
+            },
+            day: {
+              sx: {
+                "&.MuiPickersDay-root": {
+                  color: theme.COLORS.TEXT,
+                },
+                "&.MuiPickersDay-root:hover": {
+                  backgroundColor: theme.COLORS.HIGHLIGHT_HOVER,
+                },
+
+                "&.MuiPickersDay-today": {
+                  borderColor: theme.COLORS.TEXT,
+                  backgroundColor: "transparent",
+                },
+                "&.MuiPickersDay-today:focus": {
+                  borderColor: theme.COLORS.TEXT,
+                  backgroundColor: "transparent",
+                },
+
+                "&.MuiPickersDay-root.Mui-selected": {
+                  backgroundColor: theme.COLORS.HIGHLIGHT,
+                },
+                "&.MuiPickersDay-root.Mui-selected:hover": {
+                  backgroundColor: theme.COLORS.HIGHLIGHT,
+                },
+                "&.MuiPickersDay-root.Mui-selected:focus": {
+                  backgroundColor: theme.COLORS.HIGHLIGHT,
+                },
+              },
+            },
+            actionBar: {
+              actions: ["clear", "today"],
+              sx: {
+                "&  .MuiButton-root": {
+                  color: theme.COLORS.HIGHLIGHT,
+                },
+                "&  .MuiButton-root:hover": {
+                  backgroundColor: "transparent",
+                },
+              },
+            },
+          }}
+        />
+      </LocalizationProvider>
+    </LabelInputWrapper>
   );
 }

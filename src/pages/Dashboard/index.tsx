@@ -160,7 +160,6 @@ export function Dashboard() {
   }
 
   function handleSearch() {
-    console.log(searchParams);
     if (!searchParams.filter || !searchParams.query) {
       return alert(
         "Tenha certeza que você selecionou um filtro e tenha preenchido a barra de pesquisa"
