@@ -10,7 +10,7 @@ export interface LocalsDasboardType {
 }
 
 export interface LocalsType {
-  id: string;
+  id: number | string;
   name: string;
   category?: string;
 }
