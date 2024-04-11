@@ -1,59 +1,49 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useState,
-  useEffect,
-  useRef,
-  ReactNode,
-} from "react";
+import React, { ReactNode } from "react";
 
 import {
   LabelInputWrapper,
   InputContainer,
-  DropdownContainer,
-  DropdownList,
-  DropdownOptions,
+  NumberContainer,
+  NumberInput,
+  NumberControl,
+  ActionsButton,
   RadioGroupContainer,
   RadioWrapper,
   RadioContainer,
   StyledRadio,
   CustomLabel,
+  StyledReactSelect,
 } from "./styles";
-
-import { TeamsType } from "../../services/teams";
-import { StadiumsType } from "../../services/stadiums";
 
 import { useTheme } from "../../hooks/ThemeProvider";
 
+import { FiMinus, FiPlus } from "react-icons/fi";
+
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers";
+import { styled } from "@mui/material/styles";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
+import { Dayjs } from "dayjs";
 import { ptBR } from "@mui/x-date-pickers/locales";
 import "dayjs/locale/pt-br";
-import { DatePicker } from "@mui/x-date-pickers";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { styled } from "@mui/material/styles";
-import { Dayjs } from "dayjs";
+
+interface FormProps extends React.FormHTMLAttributes<HTMLFormElement> {
+  children: ReactNode;
+}
+
+export function Forms({ children, ...props }: FormProps) {
+  return <form {...props}>{children}</form>;
+}
 
 export interface InputProps {
   id: string;
   label: string;
   placeholder?: string;
-  value: string;
-  onChange: Dispatch<SetStateAction<string>>;
+  register: any;
 }
 
-export function Input({ id, label, placeholder, value, onChange }: InputProps) {
-  const [inputValue, setInputValue] = useState<string>(value);
-
-  useEffect(() => {
-    setInputValue(value);
-  }, [value]);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setInputValue(newValue);
-    onChange(newValue);
-  };
-
+export function Input({ id, label, placeholder, register }: InputProps) {
   return (
     <LabelInputWrapper>
       {label && <label htmlFor={id}>{label}</label>}
@@ -61,158 +51,8 @@ export function Input({ id, label, placeholder, value, onChange }: InputProps) {
         id={id}
         placeholder={placeholder}
         autoComplete="off"
-        value={inputValue || ""}
-        onChange={handleInputChange}
+        {...register(id)}
       />
-    </LabelInputWrapper>
-  );
-}
-
-export interface DropdownOption {
-  id: number | string;
-  name: string;
-}
-
-export interface DropdownProps {
-  id: string;
-  label: string;
-  placeholder?: string;
-  value: TeamsType | StadiumsType;
-  options: TeamsType[] | StadiumsType[];
-  onChange: Dispatch<SetStateAction<TeamsType | StadiumsType>>;
-}
-
-export function Dropdown({
-  id,
-  label,
-  placeholder,
-  value,
-  options,
-  onChange,
-}: DropdownProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [filteredOptions, setFilteredOptions] = useState<
-    TeamsType[] | StadiumsType[]
-  >([]);
-  const [searchValue, setSearchValue] = useState("");
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (inputRef.current && !inputRef.current.contains(e.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-
-    window.addEventListener("click", handler);
-    return () => {
-      window.removeEventListener("click", handler);
-    };
-  }, []);
-
-  useEffect(() => {
-    setSearchValue("");
-    setFilteredOptions(options);
-  }, [isOpen, options]);
-
-  const handleToggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const removeAccents = (str: string) => {
-    return str
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase();
-  };
-
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-
-    if (value.name && inputValue.length > 1) {
-      setSearchValue(inputValue.slice(-1));
-
-      onChange({ id: "", name: "" });
-      setFilteredOptions(options);
-
-      return;
-    }
-
-    setSearchValue(inputValue);
-
-    const filtered = options.filter((option) =>
-      removeAccents(option.name).includes(removeAccents(inputValue))
-    );
-
-    setFilteredOptions(filtered);
-  };
-
-  const getDisplay = () => {
-    if (!value.name || value.name.length === 0) {
-      return searchValue;
-    }
-
-    return value.name;
-  };
-
-  const handleOptionSelect = (selectedValue: TeamsType | StadiumsType) => {
-    onChange(selectedValue);
-    setIsOpen(false);
-  };
-
-  const handleKeyDown = (
-    e: React.KeyboardEvent<HTMLLIElement | HTMLInputElement>,
-    option?: TeamsType | StadiumsType
-  ) => {
-    if (e.key === "Backspace" && value.name) {
-      setSearchValue("");
-      onChange({ id: "", name: "" });
-    }
-
-    if (e.key === "Enter" && option) {
-      onChange(option);
-      setIsOpen(false);
-    }
-  };
-
-  const handleFocus = () => {
-    if (!isOpen) {
-      setTimeout(() => {
-        setIsOpen(true);
-      }, 100);
-    }
-  };
-
-  return (
-    <LabelInputWrapper>
-      <label htmlFor={id}>{label}</label>
-      <DropdownContainer>
-        <InputContainer
-          id={id}
-          placeholder={placeholder}
-          autoComplete="off"
-          value={getDisplay()}
-          onChange={handleSearch}
-          onClick={handleToggleDropdown}
-          onFocus={handleFocus}
-          onKeyDown={handleKeyDown}
-          ref={inputRef}
-        />
-        {isOpen && (
-          <DropdownList>
-            {filteredOptions.map((option) => (
-              <DropdownOptions
-                key={option.id}
-                onClick={() => handleOptionSelect(option)}
-                onKeyDown={(e) => handleKeyDown(e, option)}
-                tabIndex={0}
-              >
-                {option.name}
-              </DropdownOptions>
-            ))}
-          </DropdownList>
-        )}
-      </DropdownContainer>
     </LabelInputWrapper>
   );
 }
@@ -221,9 +61,8 @@ interface RadioButtonProps {
   id: string;
   name: string;
   value: string;
-  checked: boolean;
-  onChange: (value: string) => void;
   label: string;
+  register: any;
 }
 
 interface RadioButtonWrapperProps {
@@ -235,20 +74,12 @@ export function RadioButton({
   id,
   name,
   value,
-  checked,
-  onChange,
   label,
+  register,
 }: RadioButtonProps) {
   return (
     <RadioContainer>
-      <StyledRadio
-        type="radio"
-        id={id}
-        name={name}
-        value={value}
-        checked={checked}
-        onChange={(e) => onChange(e.target.value)}
-      />
+      <StyledRadio type="radio" id={id} value={value} {...register(name)} />
       <label htmlFor={id}>{label}</label>
     </RadioContainer>
   );
@@ -263,14 +94,49 @@ export function RadioGroup({ label, children }: RadioButtonWrapperProps) {
   );
 }
 
-export interface DatePickerProps {
+export interface DropdownProps {
   id: string;
   label: string;
-  value: Dayjs | null;
-  onChange: Dispatch<SetStateAction<Dayjs | null>>;
+  placeholder?: string;
+  options: { value: string | number; label: string }[];
+  fieldProps: any;
 }
 
-export function CustomDatePicker({ label, value, onChange }: DatePickerProps) {
+export function Dropdown({
+  id,
+  label,
+  placeholder,
+  options,
+  fieldProps,
+}: DropdownProps) {
+  return (
+    <LabelInputWrapper>
+      <label htmlFor={id}>{label}</label>
+      <StyledReactSelect
+        classNamePrefix="react-select"
+        inputId={id}
+        options={options}
+        placeholder={placeholder}
+        isSearchable
+        isClearable
+        {...fieldProps}
+      />
+    </LabelInputWrapper>
+  );
+}
+
+export interface CustomDatePickerProps {
+  label: string;
+  value: Dayjs | null;
+  inputRef: any;
+  onChange: (date: Dayjs | null) => void;
+}
+
+export function CustomDatePicker({
+  label,
+  value,
+  onChange,
+}: CustomDatePickerProps) {
   const { theme } = useTheme();
 
   const StyledDatePicker = styled(DatePicker)({
@@ -290,8 +156,6 @@ export function CustomDatePicker({ label, value, onChange }: DatePickerProps) {
     },
   });
 
-  console.log(value);
-
   return (
     <LabelInputWrapper>
       <CustomLabel>{label}</CustomLabel>
@@ -305,9 +169,7 @@ export function CustomDatePicker({ label, value, onChange }: DatePickerProps) {
         <StyledDatePicker
           format="DD/MM/YYYY"
           value={value}
-          onChange={(newValue) => {
-            onChange(newValue);
-          }}
+          onChange={onChange}
           slotProps={{
             popper: {
               sx: {
@@ -371,6 +233,69 @@ export function CustomDatePicker({ label, value, onChange }: DatePickerProps) {
           }}
         />
       </LocalizationProvider>
+    </LabelInputWrapper>
+  );
+}
+
+export interface NumberProps {
+  id: string;
+  label: string;
+  placeholder?: string;
+  min: number;
+  max: number;
+  value: number;
+  onChange: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export function Number({
+  id,
+  label,
+  placeholder,
+  min,
+  max,
+  value,
+  onChange,
+}: NumberProps) {
+  function increase() {
+    if (value >= max) {
+      alert(`O valor não pode ser maior que: ${max}`);
+    } else {
+      onChange(value + 1);
+    }
+  }
+
+  function decrease() {
+    if (value <= min) {
+      alert(`O valor não pode ser menor que: ${min}`);
+    } else {
+      onChange(value - 1);
+    }
+  }
+
+  return (
+    <LabelInputWrapper fit>
+      {label && <label htmlFor={id}>{label}</label>}
+      <NumberContainer>
+        <NumberInput
+          id={id}
+          type="number"
+          autoComplete="off"
+          placeholder={placeholder}
+          min={min}
+          max={max}
+          value={value}
+          onChange={(e) => onChange(parseInt(e.target.value))}
+        />
+
+        <NumberControl>
+          <ActionsButton onClick={increase}>
+            <FiPlus />
+          </ActionsButton>
+          <ActionsButton onClick={decrease}>
+            <FiMinus />
+          </ActionsButton>
+        </NumberControl>
+      </NumberContainer>
     </LabelInputWrapper>
   );
 }

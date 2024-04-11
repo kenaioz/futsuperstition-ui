@@ -13,9 +13,19 @@ export const PageContent = styled.div`
   }
 `;
 
-export const Forms = styled.div`
+export const FormsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem 3rem;
   margin-bottom: 32px;
+`;
+
+export const TeamSection = styled.div`
+  display: flex;
+  gap: 16px;
+`;
+
+export const ActionsSection = styled.div`
+  display: flex;
+  gap: 16px;
 `;
