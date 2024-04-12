@@ -1,13 +1,9 @@
-import { styled } from "styled-components";
+import { styled, css } from "styled-components";
 
 export const ButtonContainer = styled.button<{ $secundary?: boolean }>`
-  color: ${({ theme, $secundary }) =>
-    $secundary ? theme.COLORS.TEXT : theme.COLORS.WHITE};
-  background-color: ${({ theme, $secundary }) =>
-    $secundary ? "transparent" : theme.COLORS.HIGHLIGHT};
-
-  border: ${({ theme, $secundary }) =>
-    $secundary ? `1px solid ${theme.COLORS.HIGHLIGHT}` : "none"};
+  color: ${({ theme }) => theme.COLORS.WHITE};
+  background-color: ${({ theme }) => theme.COLORS.HIGHLIGHT};
+  border: none;
 
   border-radius: 8px;
 
@@ -23,6 +19,14 @@ export const ButtonContainer = styled.button<{ $secundary?: boolean }>`
   span {
     white-space: nowrap;
   }
+
+  ${({ theme, $secundary }) =>
+    $secundary &&
+    css`
+      background-color: transparent;
+      border: 1px solid ${theme.COLORS.HIGHLIGHT};
+      color: ${theme.COLORS.TEXT};
+    `}
 `;
 
 export const ButtonIconContainer = styled.button`
