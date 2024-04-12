@@ -1,13 +1,29 @@
 import Select from "react-select";
 import { styled } from "styled-components";
 
-export const LabelInputWrapper = styled.div<{ fit?: boolean }>`
+export const LabelInputWrapper = styled.div<{ $fit?: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: start;
   gap: 8px;
 
-  width: ${({ fit }) => (fit ? "fit-content" : "100%")};
+  width: ${({ $fit }) => ($fit ? "fit-content" : "100%")};
+`;
+
+export const LabelErrorWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  span {
+    font-size: 14px;
+    color: red;
+
+    &::before {
+      display: inline;
+      content: "⚠ ";
+    }
+  }
 `;
 
 export const InputContainer = styled.input`
@@ -59,15 +75,13 @@ export const DropdownOptions = styled.li`
   }
 `;
 
-export const CustomLabel = styled.span`
-  font-family: "Poppins";
-  font-size: 16px;
-`;
-
 export const RadioGroupContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
+  width: 100%;
+  max-width: fit-content;
 `;
 
 export const RadioWrapper = styled.div`

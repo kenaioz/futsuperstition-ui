@@ -2,6 +2,7 @@ import React, { ReactNode } from "react";
 
 import {
   LabelInputWrapper,
+  LabelErrorWrapper,
   InputContainer,
   NumberContainer,
   NumberInput,
@@ -11,13 +12,15 @@ import {
   RadioWrapper,
   RadioContainer,
   StyledRadio,
-  CustomLabel,
   StyledReactSelect,
 } from "./styles";
 
 import { useTheme } from "../../hooks/ThemeProvider";
 
 import { FiMinus, FiPlus } from "react-icons/fi";
+
+import { UseFormRegister, RefCallBack, useFormContext } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers";
@@ -40,10 +43,11 @@ export interface InputProps {
   id: string;
   label: string;
   placeholder?: string;
-  register: any;
 }
 
-export function Input({ id, label, placeholder, register }: InputProps) {
+export function Input({ id, label, placeholder }: InputProps) {
+  const { register } = useFormContext();
+
   return (
     <LabelInputWrapper>
       {label && <label htmlFor={id}>{label}</label>}
@@ -59,10 +63,10 @@ export function Input({ id, label, placeholder, register }: InputProps) {
 
 interface RadioButtonProps {
   id: string;
-  name: string;
+  field: string;
   value: string;
   label: string;
-  register: any;
+  register: UseFormRegister<any>;
 }
 
 interface RadioButtonWrapperProps {
@@ -70,16 +74,12 @@ interface RadioButtonWrapperProps {
   children: ReactNode;
 }
 
-export function RadioButton({
-  id,
-  name,
-  value,
-  label,
-  register,
-}: RadioButtonProps) {
+export function RadioButton({ id, field, value, label }: RadioButtonProps) {
+  const { register } = useFormContext();
+
   return (
     <RadioContainer>
-      <StyledRadio type="radio" id={id} value={value} {...register(name)} />
+      <StyledRadio type="radio" id={id} value={value} {...register(field)} />
       <label htmlFor={id}>{label}</label>
     </RadioContainer>
   );
@@ -88,18 +88,21 @@ export function RadioButton({
 export function RadioGroup({ label, children }: RadioButtonWrapperProps) {
   return (
     <RadioGroupContainer>
-      <CustomLabel>{label}</CustomLabel>
+      <label>{label}</label>
       <RadioWrapper>{children}</RadioWrapper>
     </RadioGroupContainer>
   );
 }
 
+type DropDownType = { value: string | number; label: string };
+
 export interface DropdownProps {
   id: string;
   label: string;
   placeholder?: string;
-  options: { value: string | number; label: string }[];
-  fieldProps: any;
+  options: DropDownType[];
+  value: DropDownType | undefined;
+  onChange: (...event: any[]) => void;
 }
 
 export function Dropdown({
@@ -107,11 +110,19 @@ export function Dropdown({
   label,
   placeholder,
   options,
-  fieldProps,
+  value,
+  onChange,
 }: DropdownProps) {
+  const {
+    formState: { errors },
+  } = useFormContext();
+
   return (
     <LabelInputWrapper>
-      <label htmlFor={id}>{label}</label>
+      <LabelErrorWrapper>
+        <label htmlFor={id}>{label}</label>
+        <ErrorMessage errors={errors} name={id} as="span" />
+      </LabelErrorWrapper>
       <StyledReactSelect
         classNamePrefix="react-select"
         inputId={id}
@@ -119,25 +130,32 @@ export function Dropdown({
         placeholder={placeholder}
         isSearchable
         isClearable
-        {...fieldProps}
+        value={value}
+        onChange={onChange}
       />
     </LabelInputWrapper>
   );
 }
 
 export interface CustomDatePickerProps {
+  id: string;
   label: string;
   value: Dayjs | null;
-  inputRef: any;
+  inputRef: RefCallBack;
   onChange: (date: Dayjs | null) => void;
 }
 
 export function CustomDatePicker({
+  id,
   label,
   value,
   onChange,
 }: CustomDatePickerProps) {
   const { theme } = useTheme();
+
+  const {
+    formState: { errors },
+  } = useFormContext();
 
   const StyledDatePicker = styled(DatePicker)({
     ".MuiSvgIcon-root": {
@@ -158,7 +176,10 @@ export function CustomDatePicker({
 
   return (
     <LabelInputWrapper>
-      <CustomLabel>{label}</CustomLabel>
+      <LabelErrorWrapper>
+        <label>{label}</label>
+        <ErrorMessage errors={errors} name={id} as="span" />
+      </LabelErrorWrapper>
       <LocalizationProvider
         dateAdapter={AdapterDayjs}
         adapterLocale="pt-br"
@@ -273,7 +294,7 @@ export function Number({
   }
 
   return (
-    <LabelInputWrapper fit>
+    <LabelInputWrapper $fit>
       {label && <label htmlFor={id}>{label}</label>}
       <NumberContainer>
         <NumberInput

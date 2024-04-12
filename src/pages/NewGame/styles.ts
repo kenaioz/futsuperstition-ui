@@ -15,17 +15,18 @@ export const PageContent = styled.div`
 
 export const FormsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem 3rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem 2rem;
   margin-bottom: 32px;
 `;
 
-export const TeamSection = styled.div`
+export const DualSection = styled.div`
   display: flex;
-  gap: 16px;
+  gap: 1rem;
 `;
 
 export const ActionsSection = styled.div`
   display: flex;
+  justify-content: end;
   gap: 16px;
 `;
