@@ -7,4 +7,6 @@ export const Container = styled.div<{ $highlighColor?: boolean }>`
 
   color: ${({ theme, $highlighColor }) =>
     $highlighColor ? theme.COLORS.HIGHLIGHT : theme.COLORS.WHITE};
+
+  cursor: pointer;
 `;
