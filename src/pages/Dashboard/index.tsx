@@ -52,6 +52,8 @@ import {
 import {
   getAllCompetitions,
   CompetitionsType,
+  getCompetitionsDashboard,
+  CompetitionsDashboardType,
 } from "../../services/competitions";
 import { getAllGames, GamesType } from "../../services/games";
 import {
@@ -72,6 +74,7 @@ import {
   getRivalsCompetitionsComp,
   RivalsCompetitionType,
 } from "../../services/compilations";
+import { useNavigate } from "react-router-dom";
 
 export interface SearchParamsType {
   query: string;
@@ -106,10 +109,14 @@ export function Dashboard() {
   const [localsJerseys, setLocalsJerseys] = useState<LocalsJerseysType[]>([]);
 
   const [rivals, setRivals] = useState<RivalsType[]>([]);
-  const [competitions, setCompetitions] = useState<CompetitionsType[]>([]);
+  const [competitions, setCompetitions] = useState<CompetitionsDashboardType[]>(
+    []
+  );
   const [rivalsCompetitions, setRivalsCompetitions] = useState<
     RivalsCompetitionType[]
   >([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function handleGames() {
@@ -130,7 +137,7 @@ export function Dashboard() {
       setLocals(data);
     }
     async function handleCompetitions() {
-      const data = await getAllCompetitions();
+      const data = await getCompetitionsDashboard();
       setCompetitions(data);
     }
     async function handleComplations() {
@@ -151,12 +158,12 @@ export function Dashboard() {
     setLoading(false);
   }, []);
 
-  function teste1() {
-    console.log("Teste 1");
+  function handleNewGameNavigation() {
+    navigate("/new");
   }
 
-  function teste2() {
-    console.log("Teste 2");
+  function handleSettingsNavigation() {
+    navigate("/settings");
   }
 
   function handleSearch() {
@@ -714,12 +721,12 @@ export function Dashboard() {
               {
                 label: "Adicionar Jogo",
                 icon: GiWhistle,
-                onClick: teste1,
+                onClick: handleNewGameNavigation,
               },
               {
                 label: "Configurações",
                 icon: IoSettingsSharp,
-                onClick: teste2,
+                onClick: handleSettingsNavigation,
               },
             ]}
           />

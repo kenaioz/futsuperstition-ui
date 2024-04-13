@@ -10,6 +10,10 @@ export const PageContent = styled.div`
 
   fieldset {
     border: none;
+
+    legend {
+      margin-bottom: 32px;
+    }
   }
 `;
 
