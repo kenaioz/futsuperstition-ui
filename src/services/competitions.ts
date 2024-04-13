@@ -1,11 +1,27 @@
-import { competitionsData } from "../utils/competitions";
+import { competitionsDashboard, competitionsData } from "../utils/competitions";
 
-export interface CompetitionsType {
+export interface CompetitionsDashboardType {
   id: string;
   name: string;
   category: string;
   wins: number;
   frequency: number;
+}
+
+export interface CompetitionsType {
+  id: string;
+  name: string;
+  rounds: string[];
+}
+
+export async function getCompetitionsDashboard(): Promise<
+  CompetitionsDashboardType[]
+> {
+  try {
+    return competitionsDashboard;
+  } catch (error) {
+    return [];
+  }
 }
 
 export async function getAllCompetitions(): Promise<CompetitionsType[]> {

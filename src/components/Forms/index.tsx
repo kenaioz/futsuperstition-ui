@@ -309,10 +309,10 @@ export function Number({
         />
 
         <NumberControl>
-          <ActionsButton onClick={increase}>
+          <ActionsButton type="button" onClick={increase} tabIndex={-1}>
             <FiPlus />
           </ActionsButton>
-          <ActionsButton onClick={decrease}>
+          <ActionsButton type="button" onClick={decrease} tabIndex={-1}>
             <FiMinus />
           </ActionsButton>
         </NumberControl>

@@ -6,20 +6,23 @@ import {
   FormsGrid,
   DualSection,
   ActionsSection,
+  Code,
 } from "./styles";
 
 import { Header } from "../../components/Header";
 import { Layout } from "../../components/Layout";
 import {
   Forms,
-  Dropdown,
   Input,
+  Dropdown,
   Number,
   RadioGroup,
   RadioButton,
   CustomDatePicker,
 } from "../../components/Forms";
+
 import { Button } from "../../components/Button";
+import { Modal } from "../../components/Modal";
 
 import dayjs, { Dayjs } from "dayjs";
 
@@ -57,38 +60,60 @@ const CreateGameSchema = z
         ),
         goals: z.number(),
       },
-      { required_error: "Este campo é obrigatório." }
+      {
+        required_error: "Este campo é obrigatório.",
+        invalid_type_error: "Este campo é obrigatório.",
+      }
     ),
     awayTeam: z.object({
       data: z.object(
         { value: z.string(), label: z.string() },
-        { required_error: "Este campo é obrigatório." }
+        {
+          required_error: "Este campo é obrigatório.",
+          invalid_type_error: "Este campo é obrigatório.",
+        }
       ),
       goals: z.number(),
     }),
     stadium: z.object(
       { value: z.string(), label: z.string() },
-      { required_error: "Este campo é obrigatório." }
+      {
+        required_error: "Este campo é obrigatório.",
+        invalid_type_error: "Este campo é obrigatório.",
+      }
     ),
-    competition: z.object(
-      { value: z.string(), label: z.string() },
-      { required_error: "Este campo é obrigatório." }
-    ),
+    competition: z.object({
+      data: z.object(
+        { value: z.string(), label: z.string() },
+        {
+          required_error: "Este campo é obrigatório.",
+          invalid_type_error: "Este campo é obrigatório.",
+        }
+      ),
+      round: z.object(
+        { value: z.string(), label: z.string() },
+        {
+          required_error: "Este campo é obrigatório.",
+          invalid_type_error: "Este campo é obrigatório.",
+        }
+      ),
+    }),
     jersey: z.object(
       { value: z.string(), label: z.string() },
-      { required_error: "Este campo é obrigatório." }
+      {
+        required_error: "Este campo é obrigatório.",
+        invalid_type_error: "Este campo é obrigatório.",
+      }
     ),
     date: DayjsType,
     option: z.string({
-      required_error: "Campo de opção é obrigatório",
-      invalid_type_error: "Campo de opção é obrigatório",
+      required_error: "Este campo é obrigatório.",
+      invalid_type_error: "Este campo é obrigatório.",
     }),
     local: z
       .object(
         { value: z.string(), label: z.string() },
-        {
-          invalid_type_error: "Este campo é obrigatório",
-        }
+        { invalid_type_error: "Este campo é obrigatório" }
       )
       .optional(),
   })
@@ -104,11 +129,15 @@ const CreateGameSchema = z
 type GameSchema = z.infer<typeof CreateGameSchema>;
 
 export function NewGame() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [formsConfirmation, setFormsConfirmation] = useState<GameSchema>();
+
   const [locals, setLocals] = useState<LocalsType[]>([]);
   const [teams, setTeams] = useState<TeamsType[]>([]);
   const [stadiums, setStadiums] = useState<StadiumsType[]>([]);
   const [jerseys, setJerseys] = useState<JerseysType[]>([]);
   const [competitions, setCompetitions] = useState<CompetitionsType[]>([]);
+  const [competitionRounds, setCompetitionRounds] = useState<string[]>([]);
 
   useEffect(() => {
     async function fetchTeams() {
@@ -160,15 +189,79 @@ export function NewGame() {
 
   const { register, control, handleSubmit, watch } = methods;
 
+  const optionField = watch("option");
+  const competitionField = watch("competition.data");
+
+  useEffect(() => {
+    if (competitionField) {
+      const competition = competitions.find(
+        (competition) => competitionField.label === competition.name
+      );
+
+      if (competition) {
+        setCompetitionRounds(competition.rounds);
+      }
+    } else {
+      setCompetitionRounds([]);
+    }
+  }, [competitionField]);
+
   function handleGameSubmit(data: GameSchema) {
-    console.log(data);
+    handleModalOpen(data);
   }
 
-  const optionField = watch("option");
+  function handleModalOpen(data: GameSchema) {
+    setFormsConfirmation(data);
+    setIsOpen(true);
+  }
+
+  function handleModalClose() {
+    setIsOpen(false);
+  }
+
+  function sendForms() {
+    const data = watch();
+
+    const formatedData = {
+      homeTeam: data.homeTeam,
+      awayTeam: data.awayTeam,
+      stadium: data.stadium,
+      competition: {
+        value: data.competition.data.value,
+        label: data.competition.data.label,
+        round: data.competition.round.label,
+      },
+      jersey: data.jersey,
+      date: dayjs(data.date).format("DD/MM/YYYY"),
+      option: data.option,
+    };
+
+    console.log(formatedData);
+  }
 
   return (
     <Container>
       <Header />
+
+      <Modal
+        title="Deseja enviar o formulário?"
+        open={isOpen}
+        onClose={handleModalClose}
+      >
+        {formsConfirmation && (
+          <Code>{JSON.stringify(formsConfirmation, null, 4)}</Code>
+        )}
+        <ActionsSection>
+          <Button
+            title="Não"
+            type="button"
+            onClick={handleModalClose}
+            isSecundary
+          />
+          <Button title="Sim" type="button" onClick={sendForms} />
+        </ActionsSection>
+      </Modal>
+
       <Layout>
         <PageContent>
           <fieldset>
@@ -196,9 +289,9 @@ export function NewGame() {
                           onChange={field.onChange}
                           label="Time Mandante"
                           placeholder="Pesquisar..."
-                          options={teams.map((local) => ({
-                            value: String(local.id),
-                            label: String(local.name),
+                          options={teams.map((homeTeam) => ({
+                            value: String(homeTeam.id),
+                            label: String(homeTeam.name),
                           }))}
                         />
                       )}
@@ -233,9 +326,9 @@ export function NewGame() {
                           onChange={field.onChange}
                           label="Time Visitante"
                           placeholder="Pesquisar..."
-                          options={teams.map((local) => ({
-                            value: String(local.id),
-                            label: String(local.name),
+                          options={teams.map((awayTeam) => ({
+                            value: String(awayTeam.id),
+                            label: String(awayTeam.name),
                           }))}
                         />
                       )}
@@ -267,9 +360,9 @@ export function NewGame() {
                         id="stadium"
                         label="Estádio"
                         placeholder="Pesquisar..."
-                        options={stadiums.map((local) => ({
-                          value: String(local.id),
-                          label: String(local.name),
+                        options={stadiums.map((stadium) => ({
+                          value: String(stadium.id),
+                          label: String(stadium.name),
                         }))}
                         value={field.value}
                         onChange={field.onChange}
@@ -294,41 +387,43 @@ export function NewGame() {
                     )}
                   />
 
-                  <Controller
-                    name="competition"
-                    control={control}
-                    render={({ field }) => (
-                      <Dropdown
-                        id="competition"
-                        label="Competição"
-                        placeholder="Pesquisar..."
-                        options={competitions.map((local) => ({
-                          value: String(local.id),
-                          label: String(local.name),
-                        }))}
-                        value={field.value}
-                        onChange={field.onChange}
-                      />
-                    )}
-                  />
-
-                  {/* <Controller
-                  name="competition"
-                  control={control}
-                  render={({ field }) => (
-                    <Dropdown
-                      id="competition"
-                      value={field.value}
-                        onChange={field.onChange}
-                      label="Fase da Competição"
-                      placeholder="Pesquisar..."
-                      options={competitions.map((local) => ({
-                        value: String(local.id),
-                        label: String(local.name),
-                      }))}
+                  <DualSection>
+                    <Controller
+                      name="competition.data"
+                      control={control}
+                      render={({ field }) => (
+                        <Dropdown
+                          id="competition.data"
+                          label="Competição"
+                          placeholder="Pesquisar..."
+                          options={competitions.map((competition) => ({
+                            value: String(competition.id),
+                            label: String(competition.name),
+                          }))}
+                          value={field.value}
+                          onChange={field.onChange}
+                        />
+                      )}
                     />
-                  )}
-                /> */}
+
+                    <Controller
+                      name="competition.round"
+                      control={control}
+                      render={({ field }) => (
+                        <Dropdown
+                          id="competition.round"
+                          value={field.value}
+                          onChange={field.onChange}
+                          label="Fase"
+                          placeholder="Pesquisar..."
+                          options={competitionRounds.map((round, index) => ({
+                            value: String(index + 1),
+                            label: String(round),
+                          }))}
+                        />
+                      )}
+                    />
+                  </DualSection>
 
                   <Controller
                     name="jersey"
@@ -338,9 +433,9 @@ export function NewGame() {
                         id="jersey"
                         label="Camisa"
                         placeholder="Pesquisar..."
-                        options={jerseys.map((local) => ({
-                          value: String(local.id),
-                          label: String(local.name),
+                        options={jerseys.map((jersey) => ({
+                          value: String(jersey.id),
+                          label: String(jersey.name),
                         }))}
                         value={field.value}
                         onChange={field.onChange}
@@ -361,7 +456,7 @@ export function NewGame() {
                         id="otherRadio"
                         field="option"
                         value="other"
-                        label="Outro Local"
+                        label="Outros"
                         register={register}
                       />
                     </RadioGroup>
@@ -389,7 +484,7 @@ export function NewGame() {
                 </FormsGrid>
 
                 <ActionsSection>
-                  <Button title="Cancelar" isSecundary />
+                  <Button title="Cancelar" type="button" isSecundary />
                   <Button title="Salvar Jogo" type="submit" />
                 </ActionsSection>
               </Forms>
