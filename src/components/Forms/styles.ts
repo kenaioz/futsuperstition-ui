@@ -82,6 +82,7 @@ export const RadioGroupContainer = styled.div`
 
   width: 100%;
   max-width: fit-content;
+  height: 78px;
 `;
 
 export const RadioWrapper = styled.div`
