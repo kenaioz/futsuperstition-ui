@@ -70,20 +70,10 @@ import { useNavigate } from "react-router-dom";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, Controller, FormProvider } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 
 const CreateSearchSchema = z.object({ filter: z.string(), query: z.string() });
 type SearchSchema = z.infer<typeof CreateSearchSchema>;
-export interface GamesDataType {
-  id: string;
-  teamHome: string;
-  score: string;
-  teamAway: string;
-  date: string;
-  stadium: string;
-  jersey: string;
-  local: string;
-}
 
 export function Dashboard() {
   const [loading, setLoading] = useState(true);
@@ -164,7 +154,27 @@ export function Dashboard() {
   } = methods;
 
   function handleSearch(data: SearchSchema) {
+    console.log("============================");
     console.log(data);
+
+    const searchResult = games.filter((game) => {
+      const lowerCaseQuery = data.query.toLowerCase();
+      const filteredProperty = data.filter;
+
+      if (filteredProperty === "homeTeam" || filteredProperty === "awayTeam") {
+        const teamObject = game[filteredProperty as keyof GamesType];
+
+        if (typeof teamObject === "object" && teamObject !== null) {
+          return teamObject.name.toLowerCase().includes(lowerCaseQuery);
+        }
+      } else {
+        const property = game[filteredProperty as keyof GamesType] as string;
+
+        return property.toLowerCase().includes(lowerCaseQuery);
+      }
+    });
+
+    console.log(searchResult);
   }
 
   function handleFilterClear() {
@@ -172,9 +182,9 @@ export function Dashboard() {
   }
 
   function handleKeyPress(e: React.KeyboardEvent<HTMLInputElement>) {
-    // if (e.key === "Enter") {
-    //   handleSearch();
-    // }
+    if (e.key === "Enter") {
+      handleSubmit(handleSearch);
+    }
   }
 
   function handleModalOpen(selectedGameId: string) {

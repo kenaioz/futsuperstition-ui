@@ -24,12 +24,12 @@ export function Search({ filterId, searchId, placeholder }: SearchProps) {
 
   const options = [
     { value: "id", label: "ID" },
-    { value: "teamHome", label: "Time mandante" },
-    { value: "teamAway", label: "Time visitante" },
+    { value: "homeTeam", label: "Time mandante" },
+    { value: "awayTeam", label: "Time visitante" },
     { value: "date", label: "Data" },
     { value: "stadium", label: "Estádio" },
     { value: "jersey", label: "Camisa" },
-    { value: "place", label: "Assistido de" },
+    { value: "local", label: "Assistido de" },
   ];
 
   return (
