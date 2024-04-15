@@ -91,23 +91,16 @@ export const useTheme = () => {
 };
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
-  const [themeInitialized, setThemeInitialized] = useState(false);
-  const [theme, setTheme] = useState<ThemeProviderType["theme"]>(lightTheme);
+  const storedThemeName = localStorage.getItem("@futsuperstition:theme");
+  const initTheme = storedThemeName === darkTheme.name ? darkTheme : lightTheme;
+
+  const [theme, setTheme] = useState<ThemeProviderType["theme"]>(initTheme);
 
   useEffect(() => {
-    const storedThemeName = localStorage.getItem("@futsuperstition:theme");
-
-    storedThemeName === darkTheme.name
-      ? setTheme(darkTheme)
-      : setTheme(lightTheme);
-    setThemeInitialized(true);
-  }, []);
-
-  useEffect(() => {
-    if (themeInitialized) {
+    if (theme !== null) {
       localStorage.setItem("@futsuperstition:theme", theme.name);
     }
-  }, [theme, themeInitialized]);
+  }, [theme]);
 
   const toggleTheme = () => {
     setTheme((prevTheme) =>

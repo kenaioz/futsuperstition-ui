@@ -108,8 +108,6 @@ export function Dashboard() {
     RivalsCompetitionType[]
   >([]);
 
-  const navigate = useNavigate();
-
   useEffect(() => {
     async function handleGames() {
       const data = await getAllGames();
@@ -149,6 +147,8 @@ export function Dashboard() {
 
     setLoading(false);
   }, []);
+
+  const navigate = useNavigate();
 
   function handleNewGameNavigation() {
     navigate("/new");
