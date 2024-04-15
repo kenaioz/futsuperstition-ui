@@ -12,7 +12,7 @@ import {
   TableCell,
 } from "../../components/CustomTable";
 import { BarChart } from "../../components/Charts";
-import { Search } from "../../components/Search";
+import { SearchForm, Search } from "../../components/Search";
 import { Fab } from "../../components/FAB";
 import { Modal } from "../../components/Modal";
 import { List } from "../../components/List";
@@ -68,11 +68,12 @@ import {
 } from "../../services/compilations";
 import { useNavigate } from "react-router-dom";
 
-export interface SearchParamsType {
-  query: string;
-  filter: string;
-}
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, Controller, FormProvider } from "react-hook-form";
 
+const CreateSearchSchema = z.object({ filter: z.string(), query: z.string() });
+type SearchSchema = z.infer<typeof CreateSearchSchema>;
 export interface GamesDataType {
   id: string;
   teamHome: string;
@@ -91,10 +92,6 @@ export function Dashboard() {
   const [games, setGames] = useState<GamesType[]>([]);
   const [gameDetails, setGameDetails] = useState<string>();
   const [filteredGames, setFilteredGames] = useState<GamesType[]>([]);
-  const [searchParams, setSearchParams] = useState<SearchParamsType>({
-    query: "",
-    filter: "",
-  });
 
   const [jerseys, setJerseys] = useState<JerseysDashboardType[]>([]);
   const [locals, setLocals] = useState<LocalsType[]>([]);
@@ -158,39 +155,26 @@ export function Dashboard() {
     navigate("/settings");
   }
 
-  function handleSearch() {
-    if (!searchParams.filter || !searchParams.query) {
-      return alert(
-        "Tenha certeza que você selecionou um filtro e tenha preenchido a barra de pesquisa"
-      );
-    }
-    const searchResult = games.filter((game) => {
-      const lowerCaseQuery = searchParams.query.toLowerCase();
-      const filteredProperty = searchParams.filter;
+  const methods = useForm<SearchSchema>({
+    resolver: zodResolver(CreateSearchSchema),
+  });
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = methods;
 
-      // return (
-      //   game.hasOwnProperty(filteredProperty) &&
-      //   game[filteredProperty as keyof GamesDataType]
-      //     .toLowerCase()
-      //     .includes(lowerCaseQuery)
-      // );
-    });
-
-    setFilteredGames(searchResult);
+  function handleSearch(data: SearchSchema) {
+    console.log(data);
   }
 
   function handleFilterClear() {
     setFilteredGames([]);
-    setSearchParams({
-      filter: "",
-      query: "",
-    });
   }
 
   function handleKeyPress(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === "Enter") {
-      handleSearch();
-    }
+    // if (e.key === "Enter") {
+    //   handleSearch();
+    // }
   }
 
   function handleModalOpen(selectedGameId: string) {
@@ -647,24 +631,31 @@ export function Dashboard() {
                 </DashboardSection>
 
                 <Card title="Todos os Jogos" icon={TbSoccerField}>
-                  <SearchWrapper>
-                    <Search
-                      value={searchParams}
-                      onChange={setSearchParams}
-                      onKeyDown={handleKeyPress}
-                    />
-                    <Button
-                      title="Pesquisar"
-                      icon={IoSearch}
-                      onClick={handleSearch}
-                    />
-                    <Button
-                      title="Limpar Pesquisa"
-                      icon={TbSearchOff}
-                      isSecundary
-                      onClick={handleFilterClear}
-                    />
-                  </SearchWrapper>
+                  <FormProvider {...methods}>
+                    <SearchForm onSubmit={handleSubmit(handleSearch)}>
+                      <SearchWrapper>
+                        <Search
+                          filterId="filter"
+                          searchId="query"
+                          placeholder="Pesquisar..."
+                        />
+                        <Button
+                          title="Pesquisar"
+                          type="submit"
+                          icon={IoSearch}
+                        />
+                        <Button
+                          title="Limpar Pesquisa"
+                          icon={TbSearchOff}
+                          isSecundary
+                          type="button"
+                        />
+                        <span>Teste</span>
+                        <span> | </span>
+                        <span>Teste</span>
+                      </SearchWrapper>
+                    </SearchForm>
+                  </FormProvider>
 
                   <CustomTable
                     headers={[
