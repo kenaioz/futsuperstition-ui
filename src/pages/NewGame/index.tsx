@@ -13,7 +13,6 @@ import { Header } from "../../components/Header";
 import { Layout } from "../../components/Layout";
 import {
   Forms,
-  Input,
   Dropdown,
   Number,
   RadioGroup,
@@ -272,12 +271,6 @@ export function NewGame() {
             <FormProvider {...methods}>
               <Forms onSubmit={handleSubmit(handleGameSubmit)}>
                 <FormsGrid>
-                  {/* <Input
-                    id="teste"
-                    label="Gols do Mandante"
-                    placeholder="Insira a quantidade de gols"
-                  /> */}
-
                   <DualSection>
                     <Controller
                       name="homeTeam.data"

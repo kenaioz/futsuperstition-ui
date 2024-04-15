@@ -50,23 +50,15 @@ import {
 } from "react-icons/tb";
 
 import {
-  getAllCompetitions,
-  CompetitionsType,
   getCompetitionsDashboard,
   CompetitionsDashboardType,
 } from "../../services/competitions";
 import { getAllGames, GamesType } from "../../services/games";
 import {
   getJerseysDashboardData,
-  getAllJerseys,
   JerseysDashboardType,
-  JerseysType,
 } from "../../services/jerseys";
-import {
-  getLocalsDashboardData,
-  getAllLocals,
-  LocalsType,
-} from "../../services/locals";
+import { getLocalsDashboardData, LocalsType } from "../../services/locals";
 import { getAllRivals, RivalsType } from "../../services/rivals";
 import {
   getLocalsJerseysComp,
