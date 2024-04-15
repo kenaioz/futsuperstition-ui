@@ -100,6 +100,7 @@ export function Dashboard() {
       const data = await getAllGames();
 
       setGames(data);
+      setFilteredGames(data);
     }
     async function handleJerseys() {
       const data = await getJerseysDashboardData();
@@ -150,6 +151,7 @@ export function Dashboard() {
   });
   const {
     handleSubmit,
+    reset,
     formState: { errors },
   } = methods;
 
@@ -174,17 +176,12 @@ export function Dashboard() {
       }
     });
 
-    console.log(searchResult);
+    setFilteredGames(searchResult);
   }
 
   function handleFilterClear() {
-    setFilteredGames([]);
-  }
-
-  function handleKeyPress(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === "Enter") {
-      handleSubmit(handleSearch);
-    }
+    setFilteredGames(games);
+    reset();
   }
 
   function handleModalOpen(selectedGameId: string) {
@@ -659,6 +656,7 @@ export function Dashboard() {
                           icon={TbSearchOff}
                           isSecundary
                           type="button"
+                          onClick={handleFilterClear}
                         />
                         <span>Teste</span>
                         <span> | </span>
@@ -681,7 +679,7 @@ export function Dashboard() {
                     ]}
                   >
                     <TableBody>
-                      {games.map((data) => (
+                      {filteredGames.map((data) => (
                         <TableRow key={data.id}>
                           <TableCell>{data.id}</TableCell>
                           <TableCell>{data.homeTeam.name}</TableCell>
