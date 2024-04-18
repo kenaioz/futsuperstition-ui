@@ -72,7 +72,10 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, FormProvider } from "react-hook-form";
 
-const CreateSearchSchema = z.object({ filter: z.string(), query: z.string() });
+const CreateSearchSchema = z.object({
+  filter: z.string(),
+  query: z.string().min(1, { message: "Este campo é obrigatório" }),
+});
 type SearchSchema = z.infer<typeof CreateSearchSchema>;
 
 export function Dashboard() {
@@ -149,16 +152,9 @@ export function Dashboard() {
   const methods = useForm<SearchSchema>({
     resolver: zodResolver(CreateSearchSchema),
   });
-  const {
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = methods;
+  const { handleSubmit, reset } = methods;
 
   function handleSearch(data: SearchSchema) {
-    console.log("============================");
-    console.log(data);
-
     const searchResult = games.filter((game) => {
       const lowerCaseQuery = data.query.toLowerCase();
       const filteredProperty = data.filter;
@@ -658,9 +654,6 @@ export function Dashboard() {
                           type="button"
                           onClick={handleFilterClear}
                         />
-                        <span>Teste</span>
-                        <span> | </span>
-                        <span>Teste</span>
                       </SearchWrapper>
                     </SearchForm>
                   </FormProvider>

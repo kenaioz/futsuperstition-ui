@@ -8,6 +8,26 @@ export const Container = styled.div`
   justify-content: center;
 `;
 
+export const ErrorWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  position: relative;
+  span {
+    font-size: 14px;
+    color: red;
+
+    position: absolute;
+    top: -50%;
+    left: 24px;
+
+    &::before {
+      display: inline;
+      content: "⚠ ";
+    }
+  }
+`;
+
 export const InputSearchContainer = styled.input`
   height: 48px;
   width: 400px;

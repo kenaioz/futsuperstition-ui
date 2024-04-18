@@ -1,6 +1,11 @@
 import { ReactNode } from "react";
 
-import { Container, InputSearchContainer, FilterContainer } from "./styles";
+import {
+  Container,
+  ErrorWrapper,
+  InputSearchContainer,
+  FilterContainer,
+} from "./styles";
 
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
@@ -20,7 +25,10 @@ export function SearchForm({ children, ...props }: SearchFormProps) {
 }
 
 export function Search({ filterId, searchId, placeholder }: SearchProps) {
-  const { register } = useFormContext();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
 
   const options = [
     { value: "id", label: "ID" },
@@ -34,6 +42,7 @@ export function Search({ filterId, searchId, placeholder }: SearchProps) {
 
   return (
     <Container>
+      <ErrorMessage errors={errors} name={filterId} as="span" />
       <FilterContainer {...register(filterId)}>
         <option value="" disabled>
           Filtrar
@@ -44,11 +53,14 @@ export function Search({ filterId, searchId, placeholder }: SearchProps) {
           </option>
         ))}
       </FilterContainer>
-      <InputSearchContainer
-        {...register(searchId)}
-        placeholder={placeholder}
-        autoComplete="off"
-      />
+      <ErrorWrapper>
+        <ErrorMessage errors={errors} name={searchId} as="span" />
+        <InputSearchContainer
+          {...register(searchId)}
+          placeholder={placeholder}
+          autoComplete="off"
+        />
+      </ErrorWrapper>
     </Container>
   );
 }

@@ -23,3 +23,13 @@ jobs:
           cache: "npm"
       - run: npm ci
       - run: npm run build
+
+  docker-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build Docker Compose Image
+        uses: actions/checkout@v4
+
+      - name: Build Docker images
+        run: docker-compose build
