@@ -24,7 +24,6 @@ import {
   DashboardContainer,
   DashboardSection,
   GraphsRow,
-  CardsRow,
   CardsColumn,
   SearchWrapper,
   ListWrapper,
@@ -35,7 +34,7 @@ import {
 import { MdStadium } from "react-icons/md";
 import { HiTrophy } from "react-icons/hi2";
 import { PiMapPinFill } from "react-icons/pi";
-import { FaChartBar, FaDatabase, FaTrashAlt } from "react-icons/fa";
+import { FaChartBar, FaDatabase } from "react-icons/fa";
 import { FaRankingStar } from "react-icons/fa6";
 import { TiFlowMerge } from "react-icons/ti";
 import { RiBeerFill, RiPencilFill } from "react-icons/ri";
