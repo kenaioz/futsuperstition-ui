@@ -19,7 +19,7 @@ import { useTheme } from "../../hooks/ThemeProvider";
 
 import { FiMinus, FiPlus } from "react-icons/fi";
 
-import { UseFormRegister, RefCallBack, useFormContext } from "react-hook-form";
+import { RefCallBack, useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -66,7 +66,6 @@ interface RadioButtonProps {
   field: string;
   value: string;
   label: string;
-  register: UseFormRegister<any>;
 }
 
 interface RadioButtonWrapperProps {

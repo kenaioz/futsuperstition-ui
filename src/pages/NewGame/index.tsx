@@ -186,7 +186,7 @@ export function NewGame() {
     },
   });
 
-  const { register, control, handleSubmit, watch } = methods;
+  const { control, handleSubmit, watch } = methods;
 
   const optionField = watch("option");
   const competitionField = watch("competition.data");
@@ -443,14 +443,12 @@ export function NewGame() {
                         field="option"
                         value="stadium"
                         label="Estádio"
-                        register={register}
                       />
                       <RadioButton
                         id="otherRadio"
                         field="option"
                         value="other"
                         label="Outros"
-                        register={register}
                       />
                     </RadioGroup>
 

@@ -1,83 +1,49 @@
-import { useState, useEffect, ChangeEvent, KeyboardEvent } from "react";
-import { SearchParamsType } from "../../pages/Dashboard/index";
+import { ReactNode } from "react";
 
-import { Container, FilterContainer } from "./styles";
+import {
+  Container,
+  ErrorWrapper,
+  InputSearchContainer,
+  FilterContainer,
+} from "./styles";
+
+import { useFormContext } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
+
+interface SearchFormProps extends React.FormHTMLAttributes<HTMLFormElement> {
+  children: ReactNode;
+}
 
 interface SearchProps {
-  value: SearchParamsType;
-  onChange: (value: SearchParamsType) => void;
-  onKeyDown: (event: KeyboardEvent<HTMLInputElement>) => void;
+  filterId: string;
+  searchId: string;
+  placeholder: string;
 }
 
-interface FilterProps {
-  value: string;
-  options: { value: string; label: string }[];
-  onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+export function SearchForm({ children, ...props }: SearchFormProps) {
+  return <form {...props}>{children}</form>;
 }
 
-export function Search({ value, onChange, onKeyDown }: SearchProps) {
-  const [searchInput, setSearchInput] = useState(value.query);
-  const [filterOption, setFilterOption] = useState(value.filter);
-
-  useEffect(() => {
-    if (!value.query && !value.filter) {
-      setSearchInput("");
-      setFilterOption("");
-    }
-  }, [value]);
+export function Search({ filterId, searchId, placeholder }: SearchProps) {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
 
   const options = [
     { value: "id", label: "ID" },
-    { value: "teamHome", label: "Time mandante" },
-    { value: "teamAway", label: "Time visitante" },
+    { value: "homeTeam", label: "Time mandante" },
+    { value: "awayTeam", label: "Time visitante" },
     { value: "date", label: "Data" },
     { value: "stadium", label: "Estádio" },
     { value: "jersey", label: "Camisa" },
-    { value: "place", label: "Assistido de" },
+    { value: "local", label: "Assistido de" },
   ];
-
-  const handleChanges = (name: string, newValue: string) => {
-    onChange({
-      ...value,
-      [name]: newValue,
-    });
-  };
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setSearchInput(value);
-    handleChanges(name, value);
-  };
-
-  const handleFilterChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFilterOption(value);
-    handleChanges(name, value);
-  };
 
   return (
     <Container>
-      <Filter
-        options={options}
-        value={filterOption}
-        onChange={handleFilterChange}
-      />
-      <input
-        name="query"
-        value={searchInput || ""}
-        placeholder="Selecione o filtro e faça sua pesquisa"
-        autoComplete="off"
-        onKeyDown={onKeyDown}
-        onChange={handleInputChange}
-      />
-    </Container>
-  );
-}
-
-export function Filter({ value, options, onChange }: FilterProps) {
-  return (
-    <FilterContainer>
-      <select name="filter" value={value} onChange={onChange}>
+      <ErrorMessage errors={errors} name={filterId} as="span" />
+      <FilterContainer {...register(filterId)}>
         <option value="" disabled>
           Filtrar
         </option>
@@ -86,7 +52,15 @@ export function Filter({ value, options, onChange }: FilterProps) {
             {option.label}
           </option>
         ))}
-      </select>
-    </FilterContainer>
+      </FilterContainer>
+      <ErrorWrapper>
+        <ErrorMessage errors={errors} name={searchId} as="span" />
+        <InputSearchContainer
+          {...register(searchId)}
+          placeholder={placeholder}
+          autoComplete="off"
+        />
+      </ErrorWrapper>
+    </Container>
   );
 }

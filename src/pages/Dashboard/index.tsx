@@ -12,7 +12,7 @@ import {
   TableCell,
 } from "../../components/CustomTable";
 import { BarChart } from "../../components/Charts";
-import { Search } from "../../components/Search";
+import { SearchForm, Search } from "../../components/Search";
 import { Fab } from "../../components/FAB";
 import { Modal } from "../../components/Modal";
 import { List } from "../../components/List";
@@ -58,7 +58,10 @@ import {
   getJerseysDashboardData,
   JerseysDashboardType,
 } from "../../services/jerseys";
-import { getLocalsDashboardData, LocalsType } from "../../services/locals";
+import {
+  getLocalsDashboardData,
+  LocalsDashboardType,
+} from "../../services/locals";
 import { getAllRivals, RivalsType } from "../../services/rivals";
 import {
   getLocalsJerseysComp,
@@ -68,21 +71,15 @@ import {
 } from "../../services/compilations";
 import { useNavigate } from "react-router-dom";
 
-export interface SearchParamsType {
-  query: string;
-  filter: string;
-}
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, FormProvider } from "react-hook-form";
 
-export interface GamesDataType {
-  id: string;
-  teamHome: string;
-  score: string;
-  teamAway: string;
-  date: string;
-  stadium: string;
-  jersey: string;
-  local: string;
-}
+const CreateSearchSchema = z.object({
+  filter: z.string(),
+  query: z.string().min(1, { message: "Este campo é obrigatório" }),
+});
+type SearchSchema = z.infer<typeof CreateSearchSchema>;
 
 export function Dashboard() {
   const [loading, setLoading] = useState(true);
@@ -91,13 +88,9 @@ export function Dashboard() {
   const [games, setGames] = useState<GamesType[]>([]);
   const [gameDetails, setGameDetails] = useState<string>();
   const [filteredGames, setFilteredGames] = useState<GamesType[]>([]);
-  const [searchParams, setSearchParams] = useState<SearchParamsType>({
-    query: "",
-    filter: "",
-  });
 
   const [jerseys, setJerseys] = useState<JerseysDashboardType[]>([]);
-  const [locals, setLocals] = useState<LocalsType[]>([]);
+  const [locals, setLocals] = useState<LocalsDashboardType[]>([]);
   const [localsJerseys, setLocalsJerseys] = useState<LocalsJerseysType[]>([]);
 
   const [rivals, setRivals] = useState<RivalsType[]>([]);
@@ -108,13 +101,12 @@ export function Dashboard() {
     RivalsCompetitionType[]
   >([]);
 
-  const navigate = useNavigate();
-
   useEffect(() => {
     async function handleGames() {
       const data = await getAllGames();
 
       setGames(data);
+      setFilteredGames(data);
     }
     async function handleJerseys() {
       const data = await getJerseysDashboardData();
@@ -133,11 +125,11 @@ export function Dashboard() {
       setCompetitions(data);
     }
     async function handleComplations() {
-      const data = await getLocalsJerseysComp();
-      const data1 = await getRivalsCompetitionsComp();
+      const dataLocalsJersey = await getLocalsJerseysComp();
+      const dataRivalsCompetition = await getRivalsCompetitionsComp();
 
-      setLocalsJerseys(data);
-      setRivalsCompetitions(data1);
+      setLocalsJerseys(dataLocalsJersey);
+      setRivalsCompetitions(dataRivalsCompetition);
     }
 
     handleGames();
@@ -150,6 +142,8 @@ export function Dashboard() {
     setLoading(false);
   }, []);
 
+  const navigate = useNavigate();
+
   function handleNewGameNavigation() {
     navigate("/new");
   }
@@ -158,39 +152,35 @@ export function Dashboard() {
     navigate("/settings");
   }
 
-  function handleSearch() {
-    if (!searchParams.filter || !searchParams.query) {
-      return alert(
-        "Tenha certeza que você selecionou um filtro e tenha preenchido a barra de pesquisa"
-      );
-    }
-    const searchResult = games.filter((game) => {
-      const lowerCaseQuery = searchParams.query.toLowerCase();
-      const filteredProperty = searchParams.filter;
+  const methods = useForm<SearchSchema>({
+    resolver: zodResolver(CreateSearchSchema),
+  });
+  const { handleSubmit, reset } = methods;
 
-      // return (
-      //   game.hasOwnProperty(filteredProperty) &&
-      //   game[filteredProperty as keyof GamesDataType]
-      //     .toLowerCase()
-      //     .includes(lowerCaseQuery)
-      // );
+  function handleSearch(data: SearchSchema) {
+    const searchResult = games.filter((game) => {
+      const lowerCaseQuery = data.query.toLowerCase();
+      const filteredProperty = data.filter;
+
+      if (filteredProperty === "homeTeam" || filteredProperty === "awayTeam") {
+        const teamObject = game[filteredProperty as keyof GamesType];
+
+        if (typeof teamObject === "object" && teamObject !== null) {
+          return teamObject.name.toLowerCase().includes(lowerCaseQuery);
+        }
+      } else {
+        const property = game[filteredProperty as keyof GamesType] as string;
+
+        return property.toLowerCase().includes(lowerCaseQuery);
+      }
     });
 
     setFilteredGames(searchResult);
   }
 
   function handleFilterClear() {
-    setFilteredGames([]);
-    setSearchParams({
-      filter: "",
-      query: "",
-    });
-  }
-
-  function handleKeyPress(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === "Enter") {
-      handleSearch();
-    }
+    setFilteredGames(games);
+    reset();
   }
 
   function handleModalOpen(selectedGameId: string) {
@@ -647,24 +637,29 @@ export function Dashboard() {
                 </DashboardSection>
 
                 <Card title="Todos os Jogos" icon={TbSoccerField}>
-                  <SearchWrapper>
-                    <Search
-                      value={searchParams}
-                      onChange={setSearchParams}
-                      onKeyDown={handleKeyPress}
-                    />
-                    <Button
-                      title="Pesquisar"
-                      icon={IoSearch}
-                      onClick={handleSearch}
-                    />
-                    <Button
-                      title="Limpar Pesquisa"
-                      icon={TbSearchOff}
-                      isSecundary
-                      onClick={handleFilterClear}
-                    />
-                  </SearchWrapper>
+                  <FormProvider {...methods}>
+                    <SearchForm onSubmit={handleSubmit(handleSearch)}>
+                      <SearchWrapper>
+                        <Search
+                          filterId="filter"
+                          searchId="query"
+                          placeholder="Pesquisar..."
+                        />
+                        <Button
+                          title="Pesquisar"
+                          type="submit"
+                          icon={IoSearch}
+                        />
+                        <Button
+                          title="Limpar Pesquisa"
+                          icon={TbSearchOff}
+                          isSecundary
+                          type="button"
+                          onClick={handleFilterClear}
+                        />
+                      </SearchWrapper>
+                    </SearchForm>
+                  </FormProvider>
 
                   <CustomTable
                     headers={[
@@ -680,7 +675,7 @@ export function Dashboard() {
                     ]}
                   >
                     <TableBody>
-                      {games.map((data) => (
+                      {filteredGames.map((data) => (
                         <TableRow key={data.id}>
                           <TableCell>{data.id}</TableCell>
                           <TableCell>{data.homeTeam.name}</TableCell>

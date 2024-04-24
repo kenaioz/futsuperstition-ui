@@ -1,9 +1,12 @@
 import { Container } from "./styles";
 import { useTheme } from "../../hooks/ThemeProvider";
 
-import { CompetitionsType } from "../../services/competitions";
-import { JerseysType } from "../../services/jerseys";
-import { LocalsType } from "../../services/locals";
+import {
+  CompetitionsType,
+  CompetitionsDashboardType,
+} from "../../services/competitions";
+import { JerseysType, JerseysDashboardType } from "../../services/jerseys";
+import { LocalsType, LocalsDashboardType } from "../../services/locals";
 import { RivalsType } from "../../services/rivals";
 import {
   LocalsJerseysType,
@@ -25,9 +28,9 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip);
 type DatasetType =
   | RivalsCompetitionType[]
   | LocalsJerseysType[]
-  | JerseysType[]
-  | CompetitionsType[]
-  | LocalsType[]
+  | JerseysDashboardType[]
+  | CompetitionsDashboardType[]
+  | LocalsDashboardType[]
   | RivalsType[];
 
 type OptionToDisplayType = "frequency" | "wins" | "percentage";

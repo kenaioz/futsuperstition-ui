@@ -5,7 +5,7 @@ export const localsJerseysData = [
     id: "1",
     jersey: "Camisa Home 2022",
     local: {
-      name: "Estádio",
+      name: "Morumbi",
       category: "Estadio",
     },
     wins: faker.number.int({ min: 5, max: 15 }),
@@ -16,7 +16,7 @@ export const localsJerseysData = [
     id: "2",
     jersey: "Camisa Home 2023",
     local: {
-      name: "Estádio",
+      name: "Mineirão",
       category: "Estadio",
     },
     wins: faker.number.int({ min: 5, max: 15 }),
@@ -27,7 +27,7 @@ export const localsJerseysData = [
     id: "3",
     jersey: "Camisa Alternativa 2022",
     local: {
-      name: "Estádio",
+      name: "José Liberati",
       category: "Estadio",
     },
     wins: faker.number.int({ min: 5, max: 15 }),
@@ -38,8 +38,8 @@ export const localsJerseysData = [
     id: "4",
     jersey: "Camisa Home 2023",
     local: {
-      name: "Estádio",
-      category: "Estadio",
+      name: "Casa",
+      category: "other",
     },
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
@@ -49,8 +49,8 @@ export const localsJerseysData = [
     id: "5",
     jersey: "Camisa Home 2023",
     local: {
-      name: "Estádio",
-      category: "Estadio",
+      name: "Bar sei la",
+      category: "other",
     },
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),

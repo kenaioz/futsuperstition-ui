@@ -4,7 +4,7 @@ export const jerseysDashboard = [
   {
     id: "1",
     name: "Home",
-    year: "2023",
+    year: "2023", 
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
     percentage: faker.number.int({ min: 20, max: 100 }),
