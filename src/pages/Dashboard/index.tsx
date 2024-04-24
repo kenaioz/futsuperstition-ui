@@ -58,7 +58,10 @@ import {
   getJerseysDashboardData,
   JerseysDashboardType,
 } from "../../services/jerseys";
-import { getLocalsDashboardData, LocalsType } from "../../services/locals";
+import {
+  getLocalsDashboardData,
+  LocalsDashboardType,
+} from "../../services/locals";
 import { getAllRivals, RivalsType } from "../../services/rivals";
 import {
   getLocalsJerseysComp,
@@ -87,7 +90,7 @@ export function Dashboard() {
   const [filteredGames, setFilteredGames] = useState<GamesType[]>([]);
 
   const [jerseys, setJerseys] = useState<JerseysDashboardType[]>([]);
-  const [locals, setLocals] = useState<LocalsType[]>([]);
+  const [locals, setLocals] = useState<LocalsDashboardType[]>([]);
   const [localsJerseys, setLocalsJerseys] = useState<LocalsJerseysType[]>([]);
 
   const [rivals, setRivals] = useState<RivalsType[]>([]);
@@ -122,11 +125,11 @@ export function Dashboard() {
       setCompetitions(data);
     }
     async function handleComplations() {
-      const data = await getLocalsJerseysComp();
-      const data1 = await getRivalsCompetitionsComp();
+      const dataLocalsJersey = await getLocalsJerseysComp();
+      const dataRivalsCompetition = await getRivalsCompetitionsComp();
 
-      setLocalsJerseys(data);
-      setRivalsCompetitions(data1);
+      setLocalsJerseys(dataLocalsJersey);
+      setRivalsCompetitions(dataRivalsCompetition);
     }
 
     handleGames();
