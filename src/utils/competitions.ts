@@ -110,3 +110,69 @@ export const competitionsData = [
     rounds: ["Final"],
   },
 ];
+
+export const competitionsDataDetails = [
+  {
+    id: "1",
+    name: "Brasileirão",
+    category: "Nacional",
+    rounds: Array.from({ length: 36 }, (_, index) => `Rodada ${index + 1}`),
+  },
+  {
+    id: "2",
+    name: "Copa do Brasil",
+    category: "Nacional",
+    rounds: [
+      "Primeira Fase",
+      "Segunda Fase",
+      "Terceira Fase",
+      "Oitavas de Final",
+      "Quartas de Final",
+      "Semifinal",
+      "Final",
+    ],
+  },
+  {
+    id: "3",
+    name: "Paulistão",
+    category: "Estadual",
+    rounds: ["Primeira Fase", "Quartas de Final", "Semifinal", "Final"],
+  },
+  {
+    id: "4",
+    name: "Libertadores",
+    category: "Internacional",
+    rounds: [
+      "Fase de Grupos",
+      "Oitavas de Final",
+      "Quartas de Final",
+      "Semifinal",
+      "Final",
+    ],
+  },
+  {
+    id: "5",
+    name: "Sulamericana",
+    category: "Internacional",
+    rounds: [
+      "Fase de Grupos",
+      "Playoffs",
+      "Oitavas de Final",
+      "Quartas de Final",
+      "Semifinal",
+      "Final",
+    ],
+  },
+  {
+    id: "6",
+    name: "Supercopa do Brasil",
+    category: "Nacional",
+    rounds: ["Final"],
+  },
+  {
+    id: "7",
+    name: "Recopa",
+    category: "Internacional",
+    rounds: ["Final"],
+  },
+];

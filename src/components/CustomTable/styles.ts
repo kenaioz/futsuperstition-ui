@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 export const StyledTableContainer = styled.div`
   display: block;
   max-height: 530px;
+  width: 100%;
   overflow-y: auto;
 
   margin-right: 12px;

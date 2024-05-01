@@ -1,4 +1,18 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+import {
+  Container,
+  PageContent,
+  DashboardContainer,
+  DashboardSection,
+  GraphsRow,
+  CardsColumn,
+  SearchWrapper,
+  ListWrapper,
+  ButtonWrapper,
+  ModalCentered,
+} from "./styles";
 
 import { Header } from "../../components/Header";
 import { Loading } from "../../components/Loading";
@@ -17,19 +31,6 @@ import { Fab } from "../../components/FAB";
 import { Modal } from "../../components/Modal";
 import { List } from "../../components/List";
 import { Spinner } from "../../components/Spinner";
-
-import {
-  Container,
-  PageContent,
-  DashboardContainer,
-  DashboardSection,
-  GraphsRow,
-  CardsColumn,
-  SearchWrapper,
-  ListWrapper,
-  ButtonWrapper,
-  ModalCentered,
-} from "./styles";
 
 import { MdStadium } from "react-icons/md";
 import { HiTrophy } from "react-icons/hi2";
@@ -55,20 +56,22 @@ import {
 import { getAllGames, GamesType } from "../../services/games";
 import {
   getJerseysDashboardData,
-  JerseysDashboardType,
+  JerseysDashboardDataType,
 } from "../../services/jerseys";
 import {
   getLocalsDashboardData,
   LocalsDashboardType,
 } from "../../services/locals";
-import { getAllRivals, RivalsType } from "../../services/rivals";
+import {
+  getTeamsDashboardData,
+  TeamsDashboardDataType,
+} from "../../services/teams";
 import {
   getLocalsJerseysComp,
   LocalsJerseysType,
   getRivalsCompetitionsComp,
   RivalsCompetitionType,
 } from "../../services/compilations";
-import { useNavigate } from "react-router-dom";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -88,11 +91,11 @@ export function Dashboard() {
   const [gameDetails, setGameDetails] = useState<string>();
   const [filteredGames, setFilteredGames] = useState<GamesType[]>([]);
 
-  const [jerseys, setJerseys] = useState<JerseysDashboardType[]>([]);
+  const [jerseys, setJerseys] = useState<JerseysDashboardDataType[]>([]);
   const [locals, setLocals] = useState<LocalsDashboardType[]>([]);
   const [localsJerseys, setLocalsJerseys] = useState<LocalsJerseysType[]>([]);
 
-  const [rivals, setRivals] = useState<RivalsType[]>([]);
+  const [teams, setTeams] = useState<TeamsDashboardDataType[]>([]);
   const [competitions, setCompetitions] = useState<CompetitionsDashboardType[]>(
     []
   );
@@ -103,7 +106,6 @@ export function Dashboard() {
   useEffect(() => {
     async function handleGames() {
       const data = await getAllGames();
-
       setGames(data);
       setFilteredGames(data);
     }
@@ -112,8 +114,8 @@ export function Dashboard() {
       setJerseys(data);
     }
     async function handleRivals() {
-      const data = await getAllRivals();
-      setRivals(data);
+      const data = await getTeamsDashboardData();
+      setTeams(data);
     }
     async function handleLocals() {
       const data = await getLocalsDashboardData();
@@ -561,14 +563,14 @@ export function Dashboard() {
                       icon={FaChartBar}
                     >
                       <BarChart
-                        dataset={rivals}
+                        dataset={teams}
                         optionToDisplay="frequency"
                         axis="y"
                       />
                     </Card>
                     <Card title="Top 10 - Maiores fregueses" icon={FaChartBar}>
                       <BarChart
-                        dataset={rivals}
+                        dataset={teams}
                         optionToDisplay="wins"
                         axis="y"
                       />

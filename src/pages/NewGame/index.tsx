@@ -25,10 +25,10 @@ import { Modal } from "../../components/Modal";
 
 import dayjs, { Dayjs } from "dayjs";
 
-import { getAllTeams, TeamsType } from "../../services/teams";
-import { getAllStadiums, StadiumsType } from "../../services/stadiums";
+import { getAllTeamsData, TeamsType } from "../../services/teams";
+import { getAllStadiumsData, StadiumsType } from "../../services/stadiums";
 import { getAllLocals, LocalsType } from "../../services/locals";
-import { getAllJerseys, JerseysType } from "../../services/jerseys";
+import { getAllJerseysData, JerseysType } from "../../services/jerseys";
 import {
   getAllCompetitions,
   CompetitionsType,
@@ -140,12 +140,12 @@ export function NewGame() {
 
   useEffect(() => {
     async function fetchTeams() {
-      const response = await getAllTeams();
+      const response = await getAllTeamsData();
 
       setTeams(response);
     }
     async function fetchStadiums() {
-      const response = await getAllStadiums();
+      const response = await getAllStadiumsData();
       setStadiums(response);
     }
 
@@ -155,7 +155,7 @@ export function NewGame() {
     }
 
     async function fetchJerseys() {
-      const response = await getAllJerseys();
+      const response = await getAllJerseysData();
       setJerseys(response);
     }
 

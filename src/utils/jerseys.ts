@@ -1,10 +1,10 @@
 import { faker } from "@faker-js/faker";
 
-export const jerseysDashboard = [
+export const jerseysDashboardData = [
   {
     id: "1",
     name: "Home",
-    year: "2023", 
+    year: "2023",
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
     percentage: faker.number.int({ min: 20, max: 100 }),
@@ -83,10 +83,18 @@ export const jerseysDashboard = [
   },
 ];
 
-export const jerseysData = [
+export const jerseysDataOptions = [
   { id: "1", name: "Home 2022" },
   { id: "2", name: "Home 2021" },
   { id: "3", name: "Away 2023" },
   { id: "4", name: "Home 2023" },
   { id: "5", name: "Alternativa 2021" },
+];
+
+export const jerseysData = [
+  { id: "1", name: "Home", year: "2022", manufacturer: "Adidas" },
+  { id: "2", name: "Home", year: "2021", manufacturer: "Adidas" },
+  { id: "3", name: "Away", year: "2023", manufacturer: "Adidas" },
+  { id: "4", name: "Home", year: "2023", manufacturer: "Adidas" },
+  { id: "5", name: "Alternativa", year: "2021", manufacturer: "Adidas" },
 ];

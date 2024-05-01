@@ -1,6 +1,10 @@
-import { jerseysDashboard, jerseysData } from "../utils/jerseys";
+import {
+  jerseysDashboardData,
+  jerseysDataOptions,
+  jerseysData,
+} from "../utils/jerseys";
 
-export interface JerseysDashboardType {
+export interface JerseysDashboardDataType {
   id: string;
   name: string;
   year: string;
@@ -14,17 +18,27 @@ export interface JerseysType {
   name: string;
   year?: string;
   manufacturer?: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
-async function getJerseysDashboardData(): Promise<JerseysDashboardType[]> {
+async function getJerseysDashboardData(): Promise<JerseysDashboardDataType[]> {
   try {
-    return jerseysDashboard;
+    return jerseysDashboardData;
   } catch (error) {
     return [];
   }
 }
 
-async function getAllJerseys(): Promise<JerseysType[]> {
+async function getAllJerseysOptions(): Promise<JerseysType[]> {
+  try {
+    return jerseysDataOptions;
+  } catch (error) {
+    return [];
+  }
+}
+
+async function getAllJerseysData(): Promise<JerseysType[]> {
   try {
     return jerseysData;
   } catch (error) {
@@ -32,4 +46,4 @@ async function getAllJerseys(): Promise<JerseysType[]> {
   }
 }
 
-export { getJerseysDashboardData, getAllJerseys };
+export { getJerseysDashboardData, getAllJerseysOptions, getAllJerseysData };

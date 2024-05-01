@@ -1,343 +1,334 @@
-export const teamsDetails = [
+import { faker } from "@faker-js/faker";
+
+export const teamsDashboardData = [
   {
-    id: 1,
-    name: "América Mineiro",
-    location: {
-      country: "Brasil",
-      city: "Belo Horizonte",
-    },
-  },
-  {
-    id: 2,
-    name: "Athletico Paranaense",
-    location: {
-      country: "Brasil",
-      city: "Curitiba",
-    },
-  },
-  {
-    id: 3,
-    name: "Atlético Goianiense",
-    location: {
-      country: "Brasil",
-      city: "Goiânia",
-    },
-  },
-  {
-    id: 4,
-    name: "Atlético Mineiro",
-    location: {
-      country: "Brasil",
-      city: "Belo Horizonte",
-    },
-  },
-  {
-    id: 5,
-    name: "Bahia",
-    location: {
-      country: "Brasil",
-      city: "Salvador",
-    },
-  },
-  {
-    id: 6,
-    name: "Ceará",
-    location: {
-      country: "Brasil",
-      city: "Fortaleza",
-    },
-  },
-  {
-    id: 7,
-    name: "Chapecoense",
-    location: {
-      country: "Brasil",
-      city: "Chapecó",
-    },
-  },
-  {
-    id: 8,
-    name: "Corinthians",
-    location: {
-      country: "Brasil",
-      city: "São Paulo",
-    },
-  },
-  {
-    id: 9,
-    name: "Coritiba",
-    location: {
-      country: "Brasil",
-      city: "Curitiba",
-    },
-  },
-  {
-    id: 10,
-    name: "Cuiabá",
-    location: {
-      country: "Brasil",
-      city: "Cuiabá",
-    },
-  },
-  {
-    id: 11,
-    name: "Flamengo",
-    location: {
-      country: "Brasil",
-      city: "Rio de Janeiro",
-    },
-  },
-  {
-    id: 12,
-    name: "Fluminense",
-    location: {
-      country: "Brasil",
-      city: "Rio de Janeiro",
-    },
-  },
-  {
-    id: 13,
-    name: "Grêmio",
-    location: {
-      country: "Brasil",
-      city: "Porto Alegre",
-    },
-  },
-  {
-    id: 14,
-    name: "Internacional",
-    location: {
-      country: "Brasil",
-      city: "Porto Alegre",
-    },
-  },
-  {
-    id: 15,
+    id: "1",
     name: "Palmeiras",
-    location: {
-      country: "Brasil",
-      city: "São Paulo",
-    },
+    wins: faker.number.int({ min: 5, max: 15 }),
+    frequency: faker.number.int({ min: 15, max: 30 }),
+    percentage: faker.number.int({ min: 50, max: 100 }),
   },
   {
-    id: 16,
-    name: "RB Bragantino",
-    location: {
-      country: "Brasil",
-      city: "Bragança Paulista",
-    },
+    id: "2",
+    name: "Corinthians",
+    wins: faker.number.int({ min: 5, max: 15 }),
+    frequency: faker.number.int({ min: 15, max: 30 }),
+    percentage: faker.number.int({ min: 50, max: 100 }),
   },
   {
-    id: 17,
+    id: "3",
     name: "Santos",
-    location: {
-      country: "Brasil",
-      city: "Santos",
-    },
+    wins: faker.number.int({ min: 5, max: 15 }),
+    frequency: faker.number.int({ min: 15, max: 30 }),
+    percentage: faker.number.int({ min: 50, max: 100 }),
   },
   {
-    id: 18,
-    name: "São Paulo",
-    location: {
-      country: "Brasil",
-      city: "São Paulo",
-    },
+    id: "4",
+    name: "Santo André",
+    wins: faker.number.int({ min: 5, max: 15 }),
+    frequency: faker.number.int({ min: 15, max: 30 }),
+    percentage: faker.number.int({ min: 50, max: 100 }),
   },
   {
-    id: 19,
-    name: "Sport Recife",
-    location: {
-      country: "Brasil",
-      city: "Recife",
-    },
+    id: "5",
+    name: "Portuguesa",
+    wins: faker.number.int({ min: 5, max: 15 }),
+    frequency: faker.number.int({ min: 15, max: 30 }),
+    percentage: faker.number.int({ min: 50, max: 100 }),
   },
   {
-    id: 20,
-    name: "Avaí",
-    location: {
-      country: "Brasil",
-      city: "Florianópolis",
-    },
+    id: "6",
+    name: "Morumbi",
+    wins: faker.number.int({ min: 5, max: 15 }),
+    frequency: faker.number.int({ min: 15, max: 30 }),
+    percentage: faker.number.int({ min: 50, max: 100 }),
   },
   {
-    id: 21,
-    name: "Botafogo",
-    location: {
-      country: "Brasil",
-      city: "Ribeirão Preto",
-    },
+    id: "7",
+    name: "Morumbi",
+    wins: faker.number.int({ min: 5, max: 15 }),
+    frequency: faker.number.int({ min: 15, max: 30 }),
+    percentage: faker.number.int({ min: 50, max: 100 }),
   },
   {
-    id: 22,
-    name: "Confiança",
-    location: {
-      country: "Brasil",
-      city: "Aracaju",
-    },
+    id: "8",
+    name: "Morumbi",
+    wins: faker.number.int({ min: 5, max: 15 }),
+    frequency: faker.number.int({ min: 15, max: 30 }),
+    percentage: faker.number.int({ min: 50, max: 100 }),
   },
   {
-    id: 24,
-    name: "Londrina",
-    location: {
-      country: "Brasil",
-      city: "Londrina",
-    },
+    id: "9",
+    name: "Morumbi",
+    wins: faker.number.int({ min: 5, max: 15 }),
+    frequency: faker.number.int({ min: 15, max: 30 }),
+    percentage: faker.number.int({ min: 50, max: 100 }),
   },
   {
-    id: 25,
-    name: "Náutico",
-    location: {
-      country: "Brasil",
-      city: "Recife",
-    },
-  },
-  {
-    id: 26,
-    name: "Operário Ferroviário",
-    location: {
-      country: "Brasil",
-      city: "Ponta Grossa",
-    },
-  },
-  {
-    id: 27,
-    name: "Ponte Preta",
-    location: {
-      country: "Brasil",
-      city: "Campinas",
-    },
-  },
-  {
-    id: 28,
-    name: "Remo",
-    location: {
-      country: "Brasil",
-      city: "Belém",
-    },
-  },
-  {
-    id: 29,
-    name: "Vila Nova",
-    location: {
-      country: "Brasil",
-      city: "Goiânia",
-    },
-  },
-  {
-    id: 30,
-    name: "Guarani",
-    location: {
-      country: "Brasil",
-      city: "Campinas",
-    },
-  },
-  {
-    id: 37,
-    name: "Vasco da Gama",
-    location: {
-      country: "Brasil",
-      city: "Rio de Janeiro",
-    },
-  },
-  {
-    id: 38,
-    name: "Goiás",
-    location: {
-      country: "Brasil",
-      city: "Goiânia",
-    },
-  },
-  {
-    id: 39,
-    name: "Novo Hamburgo",
-    location: {
-      country: "Brasil",
-      city: "Novo Hamburgo",
-    },
-  },
-  {
-    id: 40,
-    name: "Pelotas",
-    location: {
-      country: "Brasil",
-      city: "Pelotas",
-    },
-  },
-  {
-    id: 41,
-    name: "São José-RS",
-    location: {
-      country: "Brasil",
-      city: "Porto Alegre",
-    },
-  },
-  {
-    id: 42,
-    name: "Boca Juniors",
-    location: {
-      country: "Argentina",
-      city: "Buenos Aires",
-    },
-  },
-  {
-    id: 43,
-    name: "River Plate",
-    location: {
-      country: "Argentina",
-      city: "Buenos Aires",
-    },
-  },
-  {
-    id: 44,
-    name: "Independiente",
-    location: {
-      country: "Argentina",
-      city: "Avellaneda",
-    },
-  },
-  {
-    id: 46,
-    name: "San Lorenzo",
-    location: {
-      country: "Argentina",
-      city: "Buenos Aires",
-    },
-  },
-  {
-    id: 47,
-    name: "Vélez Sarsfield",
-    location: {
-      country: "Argentina",
-      city: "Buenos Aires",
-    },
-  },
-  {
-    id: 48,
-    name: "Nacional",
-    location: {
-      country: "Uruguai",
-      city: "Montevidéu",
-    },
-  },
-  {
-    id: 49,
-    name: "Peñarol",
-    location: {
-      country: "Uruguai",
-      city: "Montevidéu",
-    },
-  },
-  {
-    id: 50,
-    name: "Defensor Sporting",
-    location: {
-      country: "Uruguai",
-      city: "Montevidéu",
-    },
+    id: "10",
+    name: "Morumbi",
+    wins: faker.number.int({ min: 5, max: 15 }),
+    frequency: faker.number.int({ min: 15, max: 30 }),
+    percentage: faker.number.int({ min: 50, max: 100 }),
   },
 ];
 
 export const teamsData = [
+  {
+    id: 1,
+    name: "América Mineiro",
+    country: "Brasil",
+    city: "Belo Horizonte",
+  },
+  {
+    id: 2,
+    name: "Athletico Paranaense",
+    country: "Brasil",
+    city: "Curitiba",
+  },
+  {
+    id: 3,
+    name: "Atlético Goianiense",
+    country: "Brasil",
+    city: "Goiânia",
+  },
+  {
+    id: 4,
+    name: "Atlético Mineiro",
+    country: "Brasil",
+    city: "Belo Horizonte",
+  },
+  {
+    id: 5,
+    name: "Bahia",
+    country: "Brasil",
+    city: "Salvador",
+  },
+  {
+    id: 6,
+    name: "Ceará",
+    country: "Brasil",
+    city: "Fortaleza",
+  },
+  {
+    id: 7,
+    name: "Chapecoense",
+    country: "Brasil",
+    city: "Chapecó",
+  },
+  {
+    id: 8,
+    name: "Corinthians",
+    country: "Brasil",
+    city: "São Paulo",
+  },
+  {
+    id: 9,
+    name: "Coritiba",
+    country: "Brasil",
+    city: "Curitiba",
+  },
+  {
+    id: 10,
+    name: "Cuiabá",
+    country: "Brasil",
+    city: "Cuiabá",
+  },
+  {
+    id: 11,
+    name: "Flamengo",
+    country: "Brasil",
+    city: "Rio de Janeiro",
+  },
+  {
+    id: 12,
+    name: "Fluminense",
+    country: "Brasil",
+    city: "Rio de Janeiro",
+  },
+  {
+    id: 13,
+    name: "Grêmio",
+    country: "Brasil",
+    city: "Porto Alegre",
+  },
+  {
+    id: 14,
+    name: "Internacional",
+    country: "Brasil",
+    city: "Porto Alegre",
+  },
+  {
+    id: 15,
+    name: "Palmeiras",
+    country: "Brasil",
+    city: "São Paulo",
+  },
+  {
+    id: 16,
+    name: "RB Bragantino",
+    country: "Brasil",
+    city: "Bragança Paulista",
+  },
+  {
+    id: 17,
+    name: "Santos",
+    country: "Brasil",
+    city: "Santos",
+  },
+  {
+    id: 18,
+    name: "São Paulo",
+    country: "Brasil",
+    city: "São Paulo",
+  },
+  {
+    id: 19,
+    name: "Sport Recife",
+    country: "Brasil",
+    city: "Recife",
+  },
+  {
+    id: 20,
+    name: "Avaí",
+    country: "Brasil",
+    city: "Florianópolis",
+  },
+  {
+    id: 21,
+    name: "Botafogo",
+    country: "Brasil",
+    city: "Ribeirão Preto",
+  },
+  {
+    id: 22,
+    name: "Confiança",
+    country: "Brasil",
+    city: "Aracaju",
+  },
+  {
+    id: 24,
+    name: "Londrina",
+    country: "Brasil",
+    city: "Londrina",
+  },
+  {
+    id: 25,
+    name: "Náutico",
+    country: "Brasil",
+    city: "Recife",
+  },
+  {
+    id: 26,
+    name: "Operário Ferroviário",
+    country: "Brasil",
+    city: "Ponta Grossa",
+  },
+  {
+    id: 27,
+    name: "Ponte Preta",
+    country: "Brasil",
+    city: "Campinas",
+  },
+  {
+    id: 28,
+    name: "Remo",
+    country: "Brasil",
+    city: "Belém",
+  },
+  {
+    id: 29,
+    name: "Vila Nova",
+    country: "Brasil",
+    city: "Goiânia",
+  },
+  {
+    id: 30,
+    name: "Guarani",
+    country: "Brasil",
+    city: "Campinas",
+  },
+  {
+    id: 37,
+    name: "Vasco da Gama",
+    country: "Brasil",
+    city: "Rio de Janeiro",
+  },
+  {
+    id: 38,
+    name: "Goiás",
+    country: "Brasil",
+    city: "Goiânia",
+  },
+  {
+    id: 39,
+    name: "Novo Hamburgo",
+    country: "Brasil",
+    city: "Novo Hamburgo",
+  },
+  {
+    id: 40,
+    name: "Pelotas",
+    country: "Brasil",
+    city: "Pelotas",
+  },
+  {
+    id: 41,
+    name: "São José-RS",
+    country: "Brasil",
+    city: "Porto Alegre",
+  },
+  {
+    id: 42,
+    name: "Boca Juniors",
+    country: "Argentina",
+    city: "Buenos Aires",
+  },
+  {
+    id: 43,
+    name: "River Plate",
+    country: "Argentina",
+    city: "Buenos Aires",
+  },
+  {
+    id: 44,
+    name: "Independiente",
+    country: "Argentina",
+    city: "Avellaneda",
+  },
+  {
+    id: 46,
+    name: "San Lorenzo",
+    country: "Argentina",
+    city: "Buenos Aires",
+  },
+  {
+    id: 47,
+    name: "Vélez Sarsfield",
+    country: "Argentina",
+    city: "Buenos Aires",
+  },
+  {
+    id: 48,
+    name: "Nacional",
+    country: "Uruguai",
+    city: "Montevidéu",
+  },
+  {
+    id: 49,
+    name: "Peñarol",
+    country: "Uruguai",
+    city: "Montevidéu",
+  },
+  {
+    id: 50,
+    name: "Defensor Sporting",
+    country: "Uruguai",
+    city: "Montevidéu",
+  },
+];
+
+export const teamsOptions = [
   { id: 1, name: "América Mineiro" },
   { id: 2, name: "Athletico Paranaense" },
   { id: 3, name: "Atlético Goianiense" },
