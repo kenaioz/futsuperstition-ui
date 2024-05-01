@@ -101,7 +101,7 @@ export interface DropdownProps {
   placeholder?: string;
   options: DropDownType[];
   value: DropDownType | undefined;
-  onChange: (...event: any[]) => void;
+  onChange: (newValue: DropDownType | unknown) => void;
 }
 
 export function Dropdown({
@@ -130,7 +130,7 @@ export function Dropdown({
         isSearchable
         isClearable
         value={value}
-        onChange={onChange}
+        onChange={(newValue) => onChange(newValue)}
       />
     </LabelInputWrapper>
   );

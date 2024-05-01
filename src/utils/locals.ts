@@ -87,6 +87,12 @@ export const localsData = [
   { id: "1", name: "Casa" },
   { id: "2", name: "Bar São Francisco" },
   { id: "3", name: "Casa de Fulano" },
-  { id: "4", name: "Morumbi" },
-  { id: "5", name: "Bar Sei La" },
+  { id: "4", name: "Bar Sei La" },
+];
+
+export const localsDataDetails = [
+  { id: "1", name: "Casa", category: "home" },
+  { id: "2", name: "Bar São Francisco", category: "bar" },
+  { id: "3", name: "Casa de Fulano", category: "others" },
+  { id: "4", name: "Bar Sei La", category: "bar" },
 ];

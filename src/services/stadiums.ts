@@ -1,23 +1,23 @@
-import { stadiumsData, stadiumsDetails } from "../utils/stadiums";
+import { stadiumsData, stadiumsOptions } from "../utils/stadiums";
 
 export interface StadiumsType {
   id: number | string;
   name: string;
-  location?: {
-    country: string;
-    city: string;
-  };
+  country?: string;
+  city?: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
-async function getAllStadiumsDetails(): Promise<StadiumsType[]> {
+async function getAllStadiumsOptions(): Promise<StadiumsType[]> {
   try {
-    return stadiumsDetails;
+    return stadiumsOptions;
   } catch (error) {
     return [];
   }
 }
 
-async function getAllStadiums(): Promise<StadiumsType[]> {
+async function getAllStadiumsData(): Promise<StadiumsType[]> {
   try {
     return stadiumsData;
   } catch (error) {
@@ -25,4 +25,4 @@ async function getAllStadiums(): Promise<StadiumsType[]> {
   }
 }
 
-export { getAllStadiumsDetails, getAllStadiums };
+export { getAllStadiumsData, getAllStadiumsOptions };
