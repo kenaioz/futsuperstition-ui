@@ -21,15 +21,29 @@ import {
 import { Button, ButtonIcon } from "../../components/Button";
 
 import { getAllJerseysData, JerseysType } from "../../services/jerseys";
+import { getAllTeamsData, TeamsType } from "../../services/teams";
+import {
+  getAllCompetitionsData,
+  CompetitionsType,
+} from "../../services/competitions";
+import { getAllStadiumsData, StadiumsType } from "../../services/stadiums";
+import { getAllLocalsData, LocalsType } from "../../services/locals";
 
-import { TbShirtSport } from "react-icons/tb";
+import { MdStadium } from "react-icons/md";
+import { HiTrophy } from "react-icons/hi2";
+import { PiMapPinFill } from "react-icons/pi";
 import { FaDatabase } from "react-icons/fa";
 import { RiPencilFill } from "react-icons/ri";
+import { TbShirtSport, TbVs } from "react-icons/tb";
 
 export function Settings() {
   const [loading, setLoading] = useState(true);
 
   const [jerseys, setJerseys] = useState<JerseysType[]>([]);
+  const [teams, setTeams] = useState<TeamsType[]>([]);
+  const [competitions, setCompetitions] = useState<CompetitionsType[]>([]);
+  const [locals, setLocals] = useState<LocalsType[]>([]);
+  const [stadiums, setStadiums] = useState<StadiumsType[]>([]);
 
   useEffect(() => {
     async function fetchAllJerseys() {
@@ -37,9 +51,41 @@ export function Settings() {
       setJerseys(data);
     }
 
+    async function fetchAllTeams() {
+      const data = await getAllTeamsData();
+      setTeams(data);
+    }
+
+    async function fetchAllCompetitions() {
+      const data = await getAllCompetitionsData();
+      setCompetitions(data);
+    }
+
+    async function fetchAllLocals() {
+      const data = await getAllLocalsData();
+      setLocals(data);
+    }
+
+    async function fetchAllStadiums() {
+      const data = await getAllStadiumsData();
+      setStadiums(data);
+    }
+
     fetchAllJerseys();
+    fetchAllTeams();
+    fetchAllCompetitions();
+    fetchAllLocals();
+    fetchAllStadiums();
     setLoading(false);
   }, []);
+
+  function competitionRounds(data: CompetitionsType) {
+    if (data.format === "Pontos Corridos") {
+      return `${data.rounds.length} Rodadas`;
+    } else {
+      return data.rounds.join(" - ");
+    }
+  }
 
   return (
     <Container>
@@ -61,7 +107,7 @@ export function Settings() {
 
                   <Card title="Todas Camisas" icon={FaDatabase}>
                     <CustomTable
-                      headers={["ID", "Nome", "Ano", "Fabricante", "Editar"]}
+                      headers={["ID", "Nome", "País", "Cidade", "Editar"]}
                     >
                       <TableBody>
                         {jerseys.map((data) => (
@@ -70,7 +116,6 @@ export function Settings() {
                             <TableCell>{data.name}</TableCell>
                             <TableCell>{data.year}</TableCell>
                             <TableCell>{data.manufacturer}</TableCell>
-
                             <TableCell>
                               <ButtonIcon
                                 icon={RiPencilFill}
@@ -91,22 +136,21 @@ export function Settings() {
                 <TableSection>
                   <legend>
                     <h2>
-                      Camisas <TbShirtSport />
+                      Times <TbVs />
                     </h2>
                   </legend>
 
-                  <Card title="Todas Camisas" icon={FaDatabase}>
+                  <Card title="Todos Times" icon={FaDatabase}>
                     <CustomTable
                       headers={["ID", "Nome", "Ano", "Fabricante", "Editar"]}
                     >
                       <TableBody>
-                        {jerseys.map((data) => (
-                          <TableRow key={data.id}>
+                        {teams.map((data) => (
+                          <TableRow key={String(data.id)}>
                             <TableCell>{data.id}</TableCell>
                             <TableCell>{data.name}</TableCell>
-                            <TableCell>{data.year}</TableCell>
-                            <TableCell>{data.manufacturer}</TableCell>
-
+                            <TableCell>{data.country}</TableCell>
+                            <TableCell>{data.city}</TableCell>
                             <TableCell>
                               <ButtonIcon
                                 icon={RiPencilFill}
@@ -119,7 +163,119 @@ export function Settings() {
                       </TableBody>
                     </CustomTable>
                     <ActionsRow>
-                      <Button title="Adicionar Camisa" />
+                      <Button title="Adicionar Time" />
+                    </ActionsRow>
+                  </Card>
+                </TableSection>
+
+                <TableSection>
+                  <legend>
+                    <h2>
+                      Competições <HiTrophy />
+                    </h2>
+                  </legend>
+
+                  <Card title="Todas Competições" icon={FaDatabase}>
+                    <CustomTable
+                      headers={[
+                        "ID",
+                        "Nome",
+                        "Categoria",
+                        "Formato",
+                        "Fases",
+                        "Editar",
+                      ]}
+                    >
+                      <TableBody>
+                        {competitions.map((data) => (
+                          <TableRow key={String(data.id)}>
+                            <TableCell>{data.id}</TableCell>
+                            <TableCell>{data.name}</TableCell>
+                            <TableCell>{data.category}</TableCell>
+                            <TableCell>{data.format}</TableCell>
+                            <TableCell>{competitionRounds(data)}</TableCell>
+                            <TableCell>
+                              <ButtonIcon
+                                icon={RiPencilFill}
+                                size={24}
+                                // onClick={() => handleModalOpen(data.id)}
+                              />
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </CustomTable>
+                    <ActionsRow>
+                      <Button title="Adicionar Competição" />
+                    </ActionsRow>
+                  </Card>
+                </TableSection>
+
+                <TableSection>
+                  <legend>
+                    <h2>
+                      Estádios <MdStadium />
+                    </h2>
+                  </legend>
+
+                  <Card title="Todos Estádios" icon={FaDatabase}>
+                    <CustomTable
+                      headers={["ID", "Nome", "País", "Cidade", "Editar"]}
+                    >
+                      <TableBody>
+                        {stadiums.map((data) => (
+                          <TableRow key={String(data.id)}>
+                            <TableCell>{data.id}</TableCell>
+                            <TableCell>{data.name}</TableCell>
+                            <TableCell>{data.country}</TableCell>
+                            <TableCell>{data.city}</TableCell>
+                            <TableCell>
+                              <ButtonIcon
+                                icon={RiPencilFill}
+                                size={24}
+                                // onClick={() => handleModalOpen(data.id)}
+                              />
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </CustomTable>
+                    <ActionsRow>
+                      <Button title="Adicionar Estádio" />
+                    </ActionsRow>
+                  </Card>
+                </TableSection>
+
+                <TableSection>
+                  <legend>
+                    <h2>
+                      Outros Locais <PiMapPinFill />
+                    </h2>
+                  </legend>
+
+                  <Card title="Todos Locais" icon={FaDatabase}>
+                    <CustomTable
+                      headers={["ID", "Nome", "Categoria", "Editar"]}
+                    >
+                      <TableBody>
+                        {locals.map((data) => (
+                          <TableRow key={String(data.id)}>
+                            <TableCell>{data.id}</TableCell>
+                            <TableCell>{data.name}</TableCell>
+                            <TableCell>{data.category}</TableCell>
+                            <TableCell>
+                              <ButtonIcon
+                                icon={RiPencilFill}
+                                size={24}
+                                // onClick={() => handleModalOpen(data.id)}
+                              />
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </CustomTable>
+                    <ActionsRow>
+                      <Button title="Adicionar Local" />
                     </ActionsRow>
                   </Card>
                 </TableSection>
