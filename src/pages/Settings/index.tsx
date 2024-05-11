@@ -82,9 +82,8 @@ export function Settings() {
   function competitionRounds(data: CompetitionsType) {
     if (data.format === "Pontos Corridos") {
       return `${data.rounds.length} Rodadas`;
-    } else {
-      return data.rounds.join(" - ");
     }
+    return data.rounds.join(" - ");
   }
 
   return (

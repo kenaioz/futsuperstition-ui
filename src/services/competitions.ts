@@ -10,6 +10,7 @@ export interface CompetitionsDashboardType {
   category: string;
   wins: number;
   frequency: number;
+  percentage: number;
 }
 
 export interface CompetitionsType {

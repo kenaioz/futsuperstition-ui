@@ -7,6 +7,7 @@ export const competitionsDashboard = [
     category: "Nacional",
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
+    percentage: faker.number.int({ min: 20, max: 100 }),
   },
   {
     id: "2",
@@ -14,6 +15,7 @@ export const competitionsDashboard = [
     category: "Nacional",
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
+    percentage: faker.number.int({ min: 20, max: 100 }),
   },
   {
     id: "3",
@@ -21,6 +23,7 @@ export const competitionsDashboard = [
     category: "Estadual",
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
+    percentage: faker.number.int({ min: 20, max: 100 }),
   },
   {
     id: "4",
@@ -28,6 +31,7 @@ export const competitionsDashboard = [
     category: "Internacional",
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
+    percentage: faker.number.int({ min: 20, max: 100 }),
   },
   {
     id: "5",
@@ -35,6 +39,7 @@ export const competitionsDashboard = [
     category: "Internacional",
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
+    percentage: faker.number.int({ min: 20, max: 100 }),
   },
   {
     id: "6",
@@ -42,6 +47,7 @@ export const competitionsDashboard = [
     category: "Nacional",
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
+    percentage: faker.number.int({ min: 20, max: 100 }),
   },
   {
     id: "7",
@@ -49,6 +55,7 @@ export const competitionsDashboard = [
     category: "Internacional",
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
+    percentage: faker.number.int({ min: 20, max: 100 }),
   },
 ];
 

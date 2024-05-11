@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { Logo } from "../Logo";
 
 import { ThemeSwitcher } from "../ThemeSwitcher";

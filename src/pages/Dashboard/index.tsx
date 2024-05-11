@@ -277,6 +277,7 @@ export function Dashboard() {
                     <BarChart
                       dataset={localsJerseys}
                       optionToDisplay="percentage"
+                      orderBy="asc"
                       axis="x"
                     />
                   </Card>
@@ -494,6 +495,7 @@ export function Dashboard() {
                     <BarChart
                       dataset={rivalsCompetitions}
                       optionToDisplay="percentage"
+                      orderBy="asc"
                       axis="x"
                     />
                   </Card>

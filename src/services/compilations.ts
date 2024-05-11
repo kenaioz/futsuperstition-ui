@@ -3,11 +3,7 @@ import { rivalsCompetitionsData } from "../utils/rivalsCompetition";
 
 export interface LocalsJerseysType {
   id: string;
-  jersey: string;
-  local: {
-    name: string;
-    category: string;
-  };
+  name: string;
   wins: number;
   frequency: number;
   percentage: number;
@@ -15,11 +11,7 @@ export interface LocalsJerseysType {
 
 export interface RivalsCompetitionType {
   id: string;
-  team: string;
-  competition: {
-    name: string;
-    category: string;
-  };
+  name: string;
   wins: number;
   frequency: number;
   percentage: number;
