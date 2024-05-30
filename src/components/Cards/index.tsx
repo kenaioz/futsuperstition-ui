@@ -10,7 +10,24 @@ import {
   VerticalDivider,
 } from "./styles";
 
+import { CompetitionsDashboardType } from "../../services/competitions";
+import { JerseysDashboardDataType } from "../../services/jerseys";
+import { LocalsDashboardType } from "../../services/locals";
+import { TeamsDashboardDataType } from "../../services/teams";
+import {
+  LocalsJerseysType,
+  RivalsCompetitionType,
+} from "../../services/compilations";
+
 import { IconType } from "react-icons";
+
+type OptionsType =
+  | RivalsCompetitionType[]
+  | LocalsJerseysType[]
+  | JerseysDashboardDataType[]
+  | CompetitionsDashboardType[]
+  | LocalsDashboardType[]
+  | TeamsDashboardDataType[];
 
 interface CardProps {
   title: string;
@@ -21,26 +38,20 @@ interface CardProps {
 interface TopCardProps {
   title: string;
   icon: IconType;
-  options: OptionsType[];
+  children: ReactNode;
   description: string;
 }
-
-type OptionsType = {
-  id: number;
-  name: string;
-  quantity: number;
-};
 
 interface LongCardProps {
   title: string;
   icon: IconType;
-  options: OptionsType[];
+  options: OptionsType;
   description: string;
-  options2?: OptionsType[];
+  options2?: OptionsType;
   description2?: string;
-  options3?: OptionsType[];
+  options3?: OptionsType;
   description3?: string;
-  options4?: OptionsType[];
+  options4?: OptionsType;
   description4?: string;
 }
 
@@ -59,8 +70,8 @@ export function Card({ title, icon: Icon, children }: CardProps) {
 
 export function TopCard({
   title,
-  options,
   description,
+  children,
   icon: Icon,
 }: TopCardProps) {
   return (
@@ -69,13 +80,7 @@ export function TopCard({
         <h3>{title}</h3>
         {Icon && <Icon size={24} />}
       </CardTitleWrapper>
-      <TierList>
-        {options.map((option) => (
-          <span key={option.id}>
-            {option.name} - {option.quantity}
-          </span>
-        ))}
-      </TierList>
+      <TierList>{children}</TierList>
       <h5>{description}</h5>
     </ContainerTopCard>
   );
@@ -102,9 +107,7 @@ export function LongCard({
       <TierLists>
         <TierList>
           {options.map((option) => (
-            <span key={option.id}>
-              {option.name} - {option.quantity}
-            </span>
+            <span key={option.id}>{option.name}</span>
           ))}
           <h5>{description}</h5>
         </TierList>
@@ -113,9 +116,7 @@ export function LongCard({
             <VerticalDivider />
             <TierList>
               {options2.map((option) => (
-                <span key={option.id}>
-                  {option.name} - {option.quantity}
-                </span>
+                <span key={option.id}>{option.name}</span>
               ))}
               <h5>{description2}</h5>
             </TierList>
@@ -126,9 +127,7 @@ export function LongCard({
             <VerticalDivider />
             <TierList>
               {options3.map((option) => (
-                <span key={option.id}>
-                  {option.name} - {option.quantity}
-                </span>
+                <span key={option.id}>{option.name}</span>
               ))}
               <h5>{description3}</h5>
             </TierList>
@@ -139,9 +138,7 @@ export function LongCard({
             <VerticalDivider />
             <TierList>
               {options4.map((option) => (
-                <span key={option.id}>
-                  {option.name} - {option.quantity}
-                </span>
+                <span key={option.id}>{option.name}</span>
               ))}
               <h5>{description4}</h5>
             </TierList>

@@ -7,6 +7,7 @@ export const competitionsDashboard = [
     category: "Nacional",
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
+    percentage: faker.number.int({ min: 20, max: 100 }),
   },
   {
     id: "2",
@@ -14,6 +15,7 @@ export const competitionsDashboard = [
     category: "Nacional",
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
+    percentage: faker.number.int({ min: 20, max: 100 }),
   },
   {
     id: "3",
@@ -21,6 +23,7 @@ export const competitionsDashboard = [
     category: "Estadual",
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
+    percentage: faker.number.int({ min: 20, max: 100 }),
   },
   {
     id: "4",
@@ -28,6 +31,7 @@ export const competitionsDashboard = [
     category: "Internacional",
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
+    percentage: faker.number.int({ min: 20, max: 100 }),
   },
   {
     id: "5",
@@ -35,6 +39,7 @@ export const competitionsDashboard = [
     category: "Internacional",
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
+    percentage: faker.number.int({ min: 20, max: 100 }),
   },
   {
     id: "6",
@@ -42,6 +47,7 @@ export const competitionsDashboard = [
     category: "Nacional",
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
+    percentage: faker.number.int({ min: 20, max: 100 }),
   },
   {
     id: "7",
@@ -49,6 +55,7 @@ export const competitionsDashboard = [
     category: "Internacional",
     wins: faker.number.int({ min: 5, max: 15 }),
     frequency: faker.number.int({ min: 15, max: 30 }),
+    percentage: faker.number.int({ min: 20, max: 100 }),
   },
 ];
 
@@ -116,12 +123,14 @@ export const competitionsDataDetails = [
     id: "1",
     name: "Brasileirão",
     category: "Nacional",
+    format: "Pontos Corridos",
     rounds: Array.from({ length: 36 }, (_, index) => `Rodada ${index + 1}`),
   },
   {
     id: "2",
     name: "Copa do Brasil",
     category: "Nacional",
+    format: "Eliminatória",
     rounds: [
       "Primeira Fase",
       "Segunda Fase",
@@ -136,12 +145,14 @@ export const competitionsDataDetails = [
     id: "3",
     name: "Paulistão",
     category: "Estadual",
+    format: "Eliminatória",
     rounds: ["Primeira Fase", "Quartas de Final", "Semifinal", "Final"],
   },
   {
     id: "4",
     name: "Libertadores",
     category: "Internacional",
+    format: "Eliminatória",
     rounds: [
       "Fase de Grupos",
       "Oitavas de Final",
@@ -154,6 +165,7 @@ export const competitionsDataDetails = [
     id: "5",
     name: "Sulamericana",
     category: "Internacional",
+    format: "Eliminatória",
     rounds: [
       "Fase de Grupos",
       "Playoffs",
@@ -167,12 +179,14 @@ export const competitionsDataDetails = [
     id: "6",
     name: "Supercopa do Brasil",
     category: "Nacional",
+    format: "Eliminatória",
     rounds: ["Final"],
   },
   {
     id: "7",
     name: "Recopa",
     category: "Internacional",
+    format: "Eliminatória",
     rounds: ["Final"],
   },
 ];

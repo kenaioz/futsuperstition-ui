@@ -60,6 +60,7 @@ export const CardsRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 2rem;
 `;
 
 export const CardsColumn = styled.div`

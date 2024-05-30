@@ -10,11 +10,14 @@ export interface CompetitionsDashboardType {
   category: string;
   wins: number;
   frequency: number;
+  percentage: number;
 }
 
 export interface CompetitionsType {
   id: string;
   name: string;
+  category?: string;
+  format?: string;
   rounds: string[];
 }
 
@@ -28,7 +31,7 @@ async function getCompetitionsDashboard(): Promise<
   }
 }
 
-async function getAllCompetitions(): Promise<CompetitionsType[]> {
+async function getAllCompetitionsOptions(): Promise<CompetitionsType[]> {
   try {
     return competitionsData;
   } catch (error) {
@@ -36,7 +39,7 @@ async function getAllCompetitions(): Promise<CompetitionsType[]> {
   }
 }
 
-async function getAllCompetitionsDetails(): Promise<CompetitionsType[]> {
+async function getAllCompetitionsData(): Promise<CompetitionsType[]> {
   try {
     return competitionsDataDetails;
   } catch (error) {
@@ -46,6 +49,6 @@ async function getAllCompetitionsDetails(): Promise<CompetitionsType[]> {
 
 export {
   getCompetitionsDashboard,
-  getAllCompetitions,
-  getAllCompetitionsDetails,
+  getAllCompetitionsOptions,
+  getAllCompetitionsData,
 };

@@ -15,7 +15,7 @@ export const PageContent = styled.div`
 export const TablesContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 4rem;
 `;
 
 export const TableSection = styled.fieldset`

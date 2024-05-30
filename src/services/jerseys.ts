@@ -7,7 +7,7 @@ import {
 export interface JerseysDashboardDataType {
   id: string;
   name: string;
-  year: string;
+  year?: string;
   wins: number;
   frequency: number;
   percentage: number;
@@ -18,8 +18,8 @@ export interface JerseysType {
   name: string;
   year?: string;
   manufacturer?: string;
-  created_at?: string;
-  updated_at?: string;
+  created_at?: Date;
+  updated_at?: Date;
 }
 
 async function getJerseysDashboardData(): Promise<JerseysDashboardDataType[]> {

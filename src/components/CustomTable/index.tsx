@@ -37,7 +37,7 @@ export function CustomTable({ headers, children }: TableProps) {
         <StyledTableHeader>
           <TableHeader headers={headers} />
         </StyledTableHeader>
-        <tbody>{children}</tbody>
+        {children}
       </StyledTable>
     </StyledTableContainer>
   );
@@ -54,7 +54,7 @@ export function TableHeader({ headers }: TableHeaderProps) {
 }
 
 export function TableBody({ children }: TableBody) {
-  return <>{children}</>;
+  return <tbody>{children}</tbody>;
 }
 
 export function TableRow({ children }: TableRow) {

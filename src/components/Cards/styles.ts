@@ -31,7 +31,8 @@ export const ContainerTopCard = styled.div`
   background-color: ${({ theme }) => theme.COLORS.CARDBG};
 
   border-radius: 10px;
-  width: 250px;
+  min-width: 300px;
+  width: 100%;
   height: 190px;
   padding: 24px;
 
@@ -54,23 +55,24 @@ export const TierList = styled.div`
     margin-top: 24px;
   }
 
+  span {
+    border-bottom: 1px solid ${({ theme }) => theme.COLORS.HIGHLIGHT};
+  }
+
   span:nth-child(1) {
     width: fit-content;
-    border-bottom: 1px solid ${({ theme }) => theme.COLORS.HIGHLIGHT};
   }
 
   span:nth-child(2) {
     font-size: 14px;
     opacity: 0.5;
     width: fit-content;
-    border-bottom: 1px solid ${({ theme }) => theme.COLORS.HIGHLIGHT};
   }
 
   span:nth-child(3) {
     font-size: 12px;
-    opacity: 0.3;
+    opacity: 0.25;
     width: fit-content;
-    border-bottom: 1px solid ${({ theme }) => theme.COLORS.HIGHLIGHT};
   }
 `;
 

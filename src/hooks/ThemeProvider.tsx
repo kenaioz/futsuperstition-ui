@@ -32,6 +32,7 @@ interface ThemeProviderType {
     COLORS: ThemeColors;
   };
   toggleTheme: () => void;
+  SelectTheme: (option: "dark" | "light") => void;
 }
 
 const lightTheme = {
@@ -39,21 +40,21 @@ const lightTheme = {
   COLORS: {
     BODY: "#F0F0F0",
     TEXT: "#282828",
-    INPUT: "#f1f0f0",
+    INPUT: "#F1F0F0",
 
     CARDBG: "#FFFF",
 
-    TABLEHEADER: "#f1f0f0",
+    TABLEHEADER: "#F1F0F0",
     TABLEBODY: "transparent",
-    TABLEBODYEVEN: "#f1f0f0",
+    TABLEBODYEVEN: "#F1F0F0",
 
     WHITE: "#FFF",
 
-    TOOLTIP: "#292c33",
-    FAB_SHADOW: "#d3d3d3",
+    TOOLTIP: "#292C33",
+    FAB_SHADOW: "#D3D3D3",
 
     HIGHLIGHT: "#25A519",
-    HIGHLIGHT_HOVER: "#0b7c0199",
+    HIGHLIGHT_HOVER: "#0B7C0199",
   },
 };
 const darkTheme = {
@@ -63,7 +64,7 @@ const darkTheme = {
     TEXT: "#F0F0F0",
     INPUT: "#111111",
 
-    CARDBG: "#1f1f1f",
+    CARDBG: "#1F1F1F",
 
     TABLEHEADER: "#111111",
     TABLEBODY: "transparent",
@@ -71,11 +72,11 @@ const darkTheme = {
 
     WHITE: "#FFF",
 
-    TOOLTIP: "#292c33",
-    FAB_SHADOW: "#2b2b2b",
+    TOOLTIP: "#292C33",
+    FAB_SHADOW: "#2B2B2B",
 
     HIGHLIGHT: "#25A519",
-    HIGHLIGHT_HOVER: "#0b7c0199",
+    HIGHLIGHT_HOVER: "#0B7C0199",
   },
 };
 
@@ -108,9 +109,19 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
     );
   };
 
+  const SelectTheme = (option: "dark" | "light") => {
+    if (option === "dark") {
+      setTheme(darkTheme);
+    }
+    if (option === "light") {
+      setTheme(lightTheme);
+    }
+  };
+
   const contextValue: ThemeProviderType = {
     theme,
     toggleTheme,
+    SelectTheme,
   };
 
   return (

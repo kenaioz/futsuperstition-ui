@@ -27,7 +27,7 @@ async function getLocalsDashboardData(): Promise<LocalsDashboardType[]> {
   }
 }
 
-async function getAllLocals(): Promise<LocalsType[]> {
+async function getAllLocalsOptions(): Promise<LocalsType[]> {
   try {
     return localsData;
   } catch (error) {
@@ -35,7 +35,7 @@ async function getAllLocals(): Promise<LocalsType[]> {
   }
 }
 
-async function getAllLocalsDetails(): Promise<LocalsType[]> {
+async function getAllLocalsData(): Promise<LocalsType[]> {
   try {
     return localsDataDetails;
   } catch (error) {
@@ -43,4 +43,4 @@ async function getAllLocalsDetails(): Promise<LocalsType[]> {
   }
 }
 
-export { getLocalsDashboardData, getAllLocals, getAllLocalsDetails };
+export { getLocalsDashboardData, getAllLocalsOptions, getAllLocalsData };

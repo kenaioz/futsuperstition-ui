@@ -27,10 +27,10 @@ import dayjs, { Dayjs } from "dayjs";
 
 import { getAllTeamsData, TeamsType } from "../../services/teams";
 import { getAllStadiumsData, StadiumsType } from "../../services/stadiums";
-import { getAllLocals, LocalsType } from "../../services/locals";
+import { getAllLocalsOptions, LocalsType } from "../../services/locals";
 import { getAllJerseysData, JerseysType } from "../../services/jerseys";
 import {
-  getAllCompetitions,
+  getAllCompetitionsOptions,
   CompetitionsType,
 } from "../../services/competitions";
 
@@ -150,7 +150,7 @@ export function NewGame() {
     }
 
     async function fetchLocals() {
-      const response = await getAllLocals();
+      const response = await getAllLocalsOptions();
       setLocals(response);
     }
 
@@ -160,7 +160,7 @@ export function NewGame() {
     }
 
     async function fetchCompetitions() {
-      const response = await getAllCompetitions();
+      const response = await getAllCompetitionsOptions();
       setCompetitions(response);
     }
 
