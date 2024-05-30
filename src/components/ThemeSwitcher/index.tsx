@@ -3,9 +3,13 @@ import { useTheme } from "../../hooks/ThemeProvider";
 
 import Switch from "react-switch";
 
-import { Container } from "./styles";
+import { Container, ContainerSkeleton, PageSchemaContainer } from "./styles";
 
 import { RiSunFill, RiMoonFill } from "react-icons/ri";
+
+interface PageSchemaProps extends React.HTMLAttributes<HTMLDivElement> {
+  isLight?: boolean;
+}
 
 export function ThemeSwitcher() {
   const { toggleTheme, theme } = useTheme();
@@ -60,5 +64,34 @@ export function ThemeSwitcher() {
         }
       />
     </Container>
+  );
+}
+
+export function ThemeSkeleton() {
+  const { SelectTheme } = useTheme();
+
+  return (
+    <ContainerSkeleton>
+      <PageSchema isLight onClick={() => SelectTheme("light")} />
+      <PageSchema onClick={() => SelectTheme("dark")} />
+    </ContainerSkeleton>
+  );
+}
+
+export function PageSchema({ isLight = false, ...rest }: PageSchemaProps) {
+  return (
+    <PageSchemaContainer $light={isLight} {...rest}>
+      <header />
+      <main>
+        <section>
+          <div />
+          <div />
+          <div />
+          <div />
+          <div />
+          <div />
+        </section>
+      </main>
+    </PageSchemaContainer>
   );
 }

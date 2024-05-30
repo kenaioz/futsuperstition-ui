@@ -35,29 +35,22 @@ type OptionToDisplayType = "frequency" | "wins" | "percentage";
 interface ChartProps {
   dataset: DatasetType;
   optionToDisplay: OptionToDisplayType;
-  orderBy?: "desc" | "asc";
+  order?: "desc" | "asc";
   axis: "x" | "y";
 }
 
 export function BarChart({
   dataset,
   optionToDisplay,
-  orderBy,
+  order,
   axis,
 }: ChartProps) {
   const { theme } = useTheme();
 
-  dataset.sort((a, b) => {
-    const order = orderBy === "asc" ? 1 : -1;
+  const sortedDataset = dataset.sort((a, b) => {
+    const comparator = order === "asc" ? 1 : -1;
 
-    return order * (a[optionToDisplay] - b[optionToDisplay]);
-  });
-
-  const labels = dataset.map((data) => {
-    if ("year" in data) {
-      return `${data.name} + ${data.year}`;
-    }
-    return data.name;
+    return comparator * (a[optionToDisplay] - b[optionToDisplay]);
   });
 
   const setLabel = (): string => {
@@ -84,7 +77,7 @@ export function BarChart({
     aspectRatio: 1,
     scales: {
       x: {
-        suggestedMax: dataset.reduce((max, data) => {
+        suggestedMax: sortedDataset.reduce((max, data) => {
           return Math.max(max, data.frequency);
         }, 0),
         ticks: {
@@ -104,11 +97,13 @@ export function BarChart({
   };
 
   const data = {
-    labels,
+    labels: sortedDataset.map((data) => {
+      return data.name;
+    }),
     datasets: [
       {
         label: setLabel(),
-        data: dataset.map((data) => {
+        data: sortedDataset.map((data) => {
           if (optionToDisplay === "frequency") {
             return data.frequency;
           }

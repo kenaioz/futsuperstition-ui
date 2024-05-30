@@ -7,6 +7,7 @@ import {
   DashboardContainer,
   DashboardSection,
   GraphsRow,
+  CardsRow,
   CardsColumn,
   SearchWrapper,
   ListWrapper,
@@ -18,7 +19,7 @@ import { Header } from "../../components/Header";
 import { Loading } from "../../components/Loading";
 import { Button, ButtonIcon } from "../../components/Button";
 import { Layout } from "../../components/Layout";
-import { Card, TopCard, LongCard } from "../../components/Cards";
+import { Card, TopCard } from "../../components/Cards";
 import {
   CustomTable,
   TableBody,
@@ -35,8 +36,7 @@ import { Spinner } from "../../components/Spinner";
 import { MdStadium } from "react-icons/md";
 import { HiTrophy } from "react-icons/hi2";
 import { PiMapPinFill } from "react-icons/pi";
-import { FaChartBar, FaDatabase } from "react-icons/fa";
-import { FaRankingStar } from "react-icons/fa6";
+import { FaChartBar } from "react-icons/fa";
 import { TiFlowMerge } from "react-icons/ti";
 import { RiBeerFill, RiPencilFill } from "react-icons/ri";
 import { GiWhistle } from "react-icons/gi";
@@ -84,6 +84,16 @@ const CreateSearchSchema = z.object({
 type SearchSchema = z.infer<typeof CreateSearchSchema>;
 
 export function Dashboard() {
+  const navigate = useNavigate();
+
+  function handleNewGameNavigation() {
+    navigate("/new");
+  }
+
+  function handleSettingsNavigation() {
+    navigate("/settings");
+  }
+
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -91,17 +101,22 @@ export function Dashboard() {
   const [gameDetails, setGameDetails] = useState<string>();
   const [filteredGames, setFilteredGames] = useState<GamesType[]>([]);
 
+  const [localsJerseys, setLocalsJerseys] = useState<LocalsJerseysType[]>([]);
   const [jerseys, setJerseys] = useState<JerseysDashboardDataType[]>([]);
   const [locals, setLocals] = useState<LocalsDashboardType[]>([]);
-  const [localsJerseys, setLocalsJerseys] = useState<LocalsJerseysType[]>([]);
+  const [localsByStadium, setLocalsByStadium] = useState<LocalsDashboardType[]>(
+    []
+  );
+  const [localsByBar, setLocalsByBar] = useState<LocalsDashboardType[]>([]);
+  const [localsByOther, setLocalsByOther] = useState<LocalsDashboardType[]>([]);
 
+  const [rivalsCompetitions, setRivalsCompetitions] = useState<
+    RivalsCompetitionType[]
+  >([]);
   const [teams, setTeams] = useState<TeamsDashboardDataType[]>([]);
   const [competitions, setCompetitions] = useState<CompetitionsDashboardType[]>(
     []
   );
-  const [rivalsCompetitions, setRivalsCompetitions] = useState<
-    RivalsCompetitionType[]
-  >([]);
 
   useEffect(() => {
     async function handleGames() {
@@ -109,22 +124,31 @@ export function Dashboard() {
       setGames(data);
       setFilteredGames(data);
     }
+
     async function handleJerseys() {
       const data = await getJerseysDashboardData();
       setJerseys(data);
     }
+
     async function handleRivals() {
       const data = await getTeamsDashboardData();
       setTeams(data);
     }
+
     async function handleLocals() {
       const data = await getLocalsDashboardData();
       setLocals(data);
+
+      setLocalsByStadium(data.filter((local) => local.category == "stadium"));
+      setLocalsByBar(data.filter((local) => local.category == "bar"));
+      setLocalsByOther(data.filter((local) => local.category == "other"));
     }
+
     async function handleCompetitions() {
       const data = await getCompetitionsDashboard();
       setCompetitions(data);
     }
+
     async function handleComplations() {
       const dataLocalsJersey = await getLocalsJerseysComp();
       const dataRivalsCompetition = await getRivalsCompetitionsComp();
@@ -143,14 +167,14 @@ export function Dashboard() {
     setLoading(false);
   }, []);
 
-  const navigate = useNavigate();
-
-  function handleNewGameNavigation() {
-    navigate("/new");
-  }
-
-  function handleSettingsNavigation() {
-    navigate("/settings");
+  function SortAndSliceLocals(
+    array: LocalsDashboardType[],
+    orderBy: "wins" | "percentage" | "frequency"
+  ): LocalsDashboardType[] {
+    // prettier-ignore
+    return array.sort((a, b) => {
+      return b[orderBy] - a[orderBy]
+    }).slice(0, 3);
   }
 
   const methods = useForm<SearchSchema>({
@@ -158,10 +182,10 @@ export function Dashboard() {
   });
   const { handleSubmit, reset } = methods;
 
-  function handleSearch(data: SearchSchema) {
+  function handleSearch(searchParams: SearchSchema) {
     const searchResult = games.filter((game) => {
-      const lowerCaseQuery = data.query.toLowerCase();
-      const filteredProperty = data.filter;
+      const lowerCaseQuery = searchParams.query.toLowerCase();
+      const filteredProperty = searchParams.filter;
 
       if (filteredProperty === "homeTeam" || filteredProperty === "awayTeam") {
         const teamObject = game[filteredProperty as keyof GamesType];
@@ -241,62 +265,26 @@ export function Dashboard() {
                       Compilações de Local/Camisa <TiFlowMerge />
                     </h2>
                   </legend>
-                  <LongCard
-                    title="Ranking"
-                    icon={FaRankingStar}
-                    options={[
-                      {
-                        id: 1,
-                        name: "Morumbi + Camisa Home 2023",
-                        quantity: 10,
-                      },
-                      { id: 2, name: "Casa + Camisa Home 2023", quantity: 12 },
-                      { id: 3, name: "Bar + Camisa Home 2023", quantity: 4 },
-                    ]}
-                    description="Compilações de local e camisas mais frequentes"
-                    options2={[
-                      {
-                        id: 4,
-                        name: "Morumbi + Camisa Home 2023",
-                        quantity: 7,
-                      },
-                      { id: 5, name: "Casa + Camisa Home 2022", quantity: 5 },
-                      {
-                        id: 6,
-                        name: "Bar + Camisa Alternativa 2022",
-                        quantity: 2,
-                      },
-                    ]}
-                    description2="Compilações de local e camisas mais vitoriosas"
-                  />
 
-                  <Card
-                    title="Top 10 - Compilações mais vitoriosas em %"
-                    icon={FaChartBar}
-                  >
+                  <Card title="Top 10 - Aproveitamentos" icon={FaChartBar}>
                     <BarChart
                       dataset={localsJerseys}
                       optionToDisplay="percentage"
-                      orderBy="asc"
+                      order="asc"
                       axis="x"
                     />
                   </Card>
 
                   <GraphsRow>
-                    <Card
-                      title="Top 10 - Compilações mais frequentes"
-                      icon={FaChartBar}
-                    >
+                    <Card title="Top 10 - Frequência" icon={FaChartBar}>
                       <BarChart
                         dataset={localsJerseys}
                         optionToDisplay="frequency"
                         axis="y"
                       />
                     </Card>
-                    <Card
-                      title="Top 10 - Compilações mais vitoriosas"
-                      icon={FaChartBar}
-                    >
+
+                    <Card title="Top 10 - Vitórias" icon={FaChartBar}>
                       <BarChart
                         dataset={localsJerseys}
                         optionToDisplay="wins"
@@ -312,70 +300,33 @@ export function Dashboard() {
                       Camisas <TbShirtSport />
                     </h2>
                   </legend>
-                  <LongCard
-                    title="Ranking"
-                    icon={FaRankingStar}
-                    options={[
-                      { id: 10, name: "Camisa Home 20", quantity: 3 },
-                      { id: 11, name: "Camisa Sócio 22", quantity: 2 },
-                      { id: 12, name: "Camisa Alternativa 22", quantity: 1 },
-                    ]}
-                    description="Mais usadas em estádio"
-                    options2={[
-                      { id: 10, name: "Camisa Home 20", quantity: 3 },
-                      { id: 11, name: "Camisa Sócio 22", quantity: 2 },
-                      { id: 12, name: "Camisa Alternativa 22", quantity: 1 },
-                    ]}
-                    description2="Mais usadas em outros locais"
-                    options3={[
-                      { id: 10, name: "Camisa Home 20", quantity: 3 },
-                      { id: 11, name: "Camisa Sócio 22", quantity: 2 },
-                      { id: 12, name: "Camisa Alternativa 22", quantity: 1 },
-                    ]}
-                    description3="Mais vitoriosas em estádios"
-                    options4={[
-                      { id: 10, name: "Camisa Home 20", quantity: 3 },
-                      { id: 11, name: "Camisa Sócio 22", quantity: 2 },
-                      { id: 12, name: "Camisa Alternativa 22", quantity: 1 },
-                    ]}
-                    description4="Mais vitoriosas em outros locais"
-                  />
 
                   <GraphsRow>
-                    <Card title="Todos as camisas" icon={FaDatabase}>
-                      <CustomTable
-                        headers={[
-                          "Id",
-                          "Nome",
-                          "Ano",
-                          "Usada em",
-                          "Vitórias",
-                          "Aproveitamento",
-                        ]}
-                      >
-                        <TableBody>
-                          {jerseys.map((data) => (
-                            <TableRow key={data.id}>
-                              <TableCell>{data.id}</TableCell>
-                              <TableCell>{data.name}</TableCell>
-                              <TableCell>{data.year}</TableCell>
-                              <TableCell>{data.frequency}</TableCell>
-                              <TableCell>{data.wins}</TableCell>
-                              <TableCell>{data.percentage}</TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </CustomTable>
-                    </Card>
-
-                    <Card title="Camisas mais usadas" icon={FaChartBar}>
+                    <Card title="Top 10 - Frequência" icon={FaChartBar}>
                       <BarChart
                         dataset={jerseys}
                         optionToDisplay="frequency"
                         axis="y"
                       />
                     </Card>
+
+                    <Card title="Top 10 - Vitórias" icon={FaChartBar}>
+                      <BarChart
+                        dataset={jerseys}
+                        optionToDisplay="wins"
+                        axis="y"
+                      />
+                    </Card>
                   </GraphsRow>
+
+                  <Card title="Top 10 - Aproveitamentos" icon={FaChartBar}>
+                    <BarChart
+                      dataset={jerseys}
+                      optionToDisplay="percentage"
+                      axis="x"
+                      order="asc"
+                    />
+                  </Card>
                 </DashboardSection>
 
                 <DashboardSection>
@@ -384,83 +335,90 @@ export function Dashboard() {
                       Locais <MdStadium />
                     </h2>
                   </legend>
-                  <LongCard
-                    title="Ranking"
-                    icon={FaRankingStar}
-                    options={[
-                      { id: 13, name: "Morumbi", quantity: 21 },
-                      { id: 14, name: "Mineirão", quantity: 2 },
-                      { id: 15, name: "José Liberatti", quantity: 1 },
-                    ]}
-                    description="Estádios mais frequentados"
-                    options2={[
-                      { id: 10, name: "Camisa Home 20", quantity: 3 },
-                      { id: 11, name: "Camisa Sócio 22", quantity: 2 },
-                      { id: 12, name: "Camisa Alternativa 22", quantity: 1 },
-                    ]}
-                    description2="Outros locais mais frequentados"
-                    options3={[
-                      { id: 10, name: "Camisa Home 20", quantity: 3 },
-                      { id: 11, name: "Camisa Sócio 22", quantity: 2 },
-                      { id: 12, name: "Camisa Alternativa 22", quantity: 1 },
-                    ]}
-                    description3="Estádios mais vitoriosos"
-                    options4={[
-                      { id: 10, name: "Camisa Home 20", quantity: 3 },
-                      { id: 11, name: "Camisa Sócio 22", quantity: 2 },
-                      { id: 12, name: "Camisa Alternativa 22", quantity: 1 },
-                    ]}
-                    description4="Outros locais mais vitoriosos"
-                  />
+                  <CardsRow>
+                    <TopCard
+                      title="Estádios"
+                      description="Mais frequentados"
+                      icon={MdStadium}
+                    >
+                      {SortAndSliceLocals(localsByStadium, "frequency").map(
+                        (local) => (
+                          <span key={local.id}>{local.name}</span>
+                        )
+                      )}
+                    </TopCard>
+
+                    <TopCard
+                      title="Bares"
+                      description="Mais frequentados"
+                      icon={RiBeerFill}
+                    >
+                      {SortAndSliceLocals(localsByBar, "frequency").map(
+                        (local) => (
+                          <span key={local.id}>{local.name}</span>
+                        )
+                      )}
+                    </TopCard>
+
+                    <TopCard
+                      title="Outros Locais"
+                      description="Mais frequentados"
+                      icon={PiMapPinFill}
+                    >
+                      {SortAndSliceLocals(localsByOther, "frequency").map(
+                        (local) => (
+                          <span key={local.id}>{local.name}</span>
+                        )
+                      )}
+                    </TopCard>
+                  </CardsRow>
 
                   <GraphsRow>
-                    <Card title="Locais mais frequentados" icon={FaChartBar}>
+                    <Card title="Aproveitamento" icon={FaChartBar}>
                       <BarChart
                         dataset={locals}
-                        optionToDisplay="frequency"
-                        axis="y"
-                      />
-                    </Card>
-
-                    <Card title="Locais mais vitoriosos" icon={FaChartBar}>
-                      <BarChart
-                        dataset={locals}
-                        optionToDisplay="wins"
-                        axis="y"
+                        optionToDisplay="percentage"
+                        order="asc"
+                        axis="x"
                       />
                     </Card>
 
                     <CardsColumn>
                       <TopCard
                         title="Estádios"
-                        description="Mais frequentados"
+                        description="Mais vitoriosos"
                         icon={MdStadium}
-                        options={[
-                          { id: 13, name: "Morumbi", quantity: 21 },
-                          { id: 14, name: "Mineirão", quantity: 2 },
-                          { id: 15, name: "José Liberatti", quantity: 1 },
-                        ]}
-                      />
+                      >
+                        {SortAndSliceLocals(localsByStadium, "wins").map(
+                          (local) => (
+                            <span key={local.id}>{local.name}</span>
+                          )
+                        )}
+                      </TopCard>
 
                       <TopCard
                         title="Bares"
-                        description="Mais frequentados"
+                        description="Mais vitoriosos"
                         icon={RiBeerFill}
-                        options={[
-                          { id: 19, name: "Bar São Francisco", quantity: 15 },
-                          { id: 20, name: "Bar Aleatório", quantity: 10 },
-                        ]}
-                      />
+                      >
+                        {SortAndSliceLocals(localsByBar, "wins").map(
+                          (local) => (
+                            <span key={local.id}>{local.name}</span>
+                          )
+                        )}
+                      </TopCard>
 
                       <TopCard
                         title="Outros Locais"
-                        description="Mais frequentados"
+                        description="Mais vitoriosos"
                         icon={PiMapPinFill}
-                        options={[
-                          { id: 16, name: "Casa", quantity: 32 },
-                          { id: 18, name: "Casa de Fulano", quantity: 5 },
-                        ]}
-                      />
+                      >
+                        {SortAndSliceLocals(localsByOther, "wins").map(
+                          (local) => (
+                            <span key={local.id}>{local.name}</span>
+                          )
+                        )}
+                      </TopCard>
                     </CardsColumn>
                   </GraphsRow>
                 </DashboardSection>
@@ -471,50 +429,26 @@ export function Dashboard() {
                       Compilações - Rival/Campeonato <TiFlowMerge />
                     </h2>
                   </legend>
-                  <LongCard
-                    title="Ranking"
-                    icon={FaRankingStar}
-                    options={[
-                      { id: 1, name: "Palmeiras + Paulistão", quantity: 10 },
-                      { id: 2, name: "Santos + Brasileirão", quantity: 12 },
-                      { id: 3, name: "Corinthians + Brasileirão", quantity: 6 },
-                    ]}
-                    description="Compilações de rivais e campeonatos mais frequentes"
-                    options2={[
-                      { id: 4, name: "Santos + Brasileirão", quantity: 7 },
-                      { id: 5, name: "Palmeiras + Paulistão", quantity: 5 },
-                      { id: 6, name: "Corinthians + Brasileirão", quantity: 2 },
-                    ]}
-                    description2="Compilações de rivais e campeonatos mais vitoriosas"
-                  />
 
-                  <Card
-                    title="Top 10 - Compilações mais vitoriosas em %"
-                    icon={FaChartBar}
-                  >
+                  <Card title="Top 10 - Aproveitamentos" icon={FaChartBar}>
                     <BarChart
                       dataset={rivalsCompetitions}
                       optionToDisplay="percentage"
-                      orderBy="asc"
+                      order="asc"
                       axis="x"
                     />
                   </Card>
 
                   <GraphsRow>
-                    <Card
-                      title="Top 10 - Compilações mais frequentes"
-                      icon={FaChartBar}
-                    >
+                    <Card title="Top 10 - Frequência" icon={FaChartBar}>
                       <BarChart
                         dataset={rivalsCompetitions}
                         optionToDisplay="frequency"
                         axis="y"
                       />
                     </Card>
-                    <Card
-                      title="Top 10 - Compilações mais vitoriosas"
-                      icon={FaChartBar}
-                    >
+
+                    <Card title="Top 10 - Vitórias" icon={FaChartBar}>
                       <BarChart
                         dataset={rivalsCompetitions}
                         optionToDisplay="wins"
@@ -530,47 +464,26 @@ export function Dashboard() {
                       Rivais <TbVs />
                     </h2>
                   </legend>
-                  <LongCard
-                    title="Ranking"
-                    icon={FaRankingStar}
-                    options={[
-                      { id: 13, name: "Morumbi", quantity: 21 },
-                      { id: 14, name: "Mineirão", quantity: 2 },
-                      { id: 15, name: "José Liberatti", quantity: 1 },
-                    ]}
-                    description="Mais frequentes em estádios"
-                    options2={[
-                      { id: 10, name: "Camisa Home 20", quantity: 3 },
-                      { id: 11, name: "Camisa Sócio 22", quantity: 2 },
-                      { id: 12, name: "Camisa Alternativa 22", quantity: 1 },
-                    ]}
-                    description2="Mais frequentes em outros locais"
-                    options3={[
-                      { id: 10, name: "Camisa Home 20", quantity: 3 },
-                      { id: 11, name: "Camisa Sócio 22", quantity: 2 },
-                      { id: 12, name: "Camisa Alternativa 22", quantity: 1 },
-                    ]}
-                    description3="Maiores fregueses em estádio"
-                    options4={[
-                      { id: 10, name: "Camisa Home 20", quantity: 3 },
-                      { id: 11, name: "Camisa Sócio 22", quantity: 2 },
-                      { id: 12, name: "Camisa Alternativa 22", quantity: 1 },
-                    ]}
-                    description4="Maiores fregueses em outros locais"
-                  />
+
+                  <Card title="Top 10 - Aproveitamentos" icon={FaChartBar}>
+                    <BarChart
+                      dataset={teams}
+                      optionToDisplay="percentage"
+                      axis="x"
+                      order="asc"
+                    />
+                  </Card>
 
                   <GraphsRow>
-                    <Card
-                      title="Top 10 - Rivais mais frequentes"
-                      icon={FaChartBar}
-                    >
+                    <Card title="Top 10 - Frequência" icon={FaChartBar}>
                       <BarChart
                         dataset={teams}
                         optionToDisplay="frequency"
                         axis="y"
                       />
                     </Card>
-                    <Card title="Top 10 - Maiores fregueses" icon={FaChartBar}>
+
+                    <Card title="Top 10 - Vitórias" icon={FaChartBar}>
                       <BarChart
                         dataset={teams}
                         optionToDisplay="wins"
@@ -586,50 +499,18 @@ export function Dashboard() {
                       Campeonatos <HiTrophy />
                     </h2>
                   </legend>
-                  <LongCard
-                    title="Ranking"
-                    icon={FaRankingStar}
-                    options={[
-                      { id: 13, name: "Morumbi", quantity: 21 },
-                      { id: 14, name: "Mineirão", quantity: 2 },
-                      { id: 15, name: "José Liberatti", quantity: 1 },
-                    ]}
-                    description="Mais frequentados em estádios"
-                    options2={[
-                      { id: 10, name: "Camisa Home 20", quantity: 3 },
-                      { id: 11, name: "Camisa Sócio 22", quantity: 2 },
-                      { id: 12, name: "Camisa Alternativa 22", quantity: 1 },
-                    ]}
-                    description2="Mais frequentados em outros locais"
-                    options3={[
-                      { id: 10, name: "Camisa Home 20", quantity: 3 },
-                      { id: 11, name: "Camisa Sócio 22", quantity: 2 },
-                      { id: 12, name: "Camisa Alternativa 22", quantity: 1 },
-                    ]}
-                    description3="Mais vitoriosos em estádios"
-                    options4={[
-                      { id: 10, name: "Camisa Home 20", quantity: 3 },
-                      { id: 11, name: "Camisa Sócio 22", quantity: 2 },
-                      { id: 12, name: "Camisa Alternativa 22", quantity: 1 },
-                    ]}
-                    description4="Mais vitoriosos em outros locais"
-                  />
 
                   <GraphsRow>
-                    <Card
-                      title="Top 10 - Competições mais frequentes"
-                      icon={FaChartBar}
-                    >
+                    <Card title="Top 10 - Aproveitamentos" icon={FaChartBar}>
                       <BarChart
                         dataset={competitions}
-                        optionToDisplay="frequency"
-                        axis="y"
+                        optionToDisplay="percentage"
+                        order="asc"
+                        axis="x"
                       />
                     </Card>
-                    <Card
-                      title="Top 10 - Competições com mais vitórias"
-                      icon={FaChartBar}
-                    >
+
+                    <Card title="Top 10 - Vitórias" icon={FaChartBar}>
                       <BarChart
                         dataset={competitions}
                         optionToDisplay="wins"

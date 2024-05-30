@@ -19,6 +19,7 @@ import {
   TableRow,
 } from "../../components/CustomTable";
 import { Button, ButtonIcon } from "../../components/Button";
+import { ThemeSkeleton } from "../../components/ThemeSwitcher";
 
 import { getAllJerseysData, JerseysType } from "../../services/jerseys";
 import { getAllTeamsData, TeamsType } from "../../services/teams";
@@ -96,7 +97,19 @@ export function Settings() {
           <Layout>
             <PageContent>
               <h1>Configurações</h1>
+
               <TablesContainer>
+                <TableSection>
+                  <legend>
+                    <h2>
+                      Geral <TbShirtSport />
+                    </h2>
+                  </legend>
+                  <div>
+                    <h2>Selecionar tema</h2>
+                    <ThemeSkeleton />
+                  </div>
+                </TableSection>
                 <TableSection>
                   <legend>
                     <h2>
