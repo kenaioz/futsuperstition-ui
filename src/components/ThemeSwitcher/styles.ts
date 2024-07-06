@@ -11,7 +11,7 @@ export const ContainerSkeleton = styled.div`
   align-items: center;
   justify-content: center;
   gap: 8px;
-  border: 1px solid grey;
+  border: 1px solid ${({ theme }) => theme.COLORS.TEXT};
   width: fit-content;
   border-radius: 8px;
   padding: 8px;
